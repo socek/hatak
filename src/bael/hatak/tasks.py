@@ -35,7 +35,7 @@ class CreateDataDir(Task):
                 mkdir(directory)
 
 
-class Serve(Task):
+class Serve(VirtualenvTask):
     name = 'Run development server'
     path = '/serve'
 
@@ -48,7 +48,11 @@ class Serve(Task):
         self.add_link(Migration)
 
     def make(self):
-        self.command(['pserve %(data:frontend.ini)s --reload' % (self.paths)])
+        self.pserve('%(data:frontend.ini)s --reload' % (self.paths))
+
+    def pserve(self, command, *args, **kwargs):
+        command = self.paths['exe:pserve'] + ' ' + command
+        return self.command([command], *args, **kwargs)
 
 
 class MigrationBase(VirtualenvTask):

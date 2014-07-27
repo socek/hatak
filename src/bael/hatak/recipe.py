@@ -45,6 +45,7 @@ class HatakRecipe(Recipe):
         self.set_path('migration:versions', 'migration:main', 'versions')
 
         self.set_path('exe:migrate', 'virtualenv:bin', 'migrate')
+        self.set_path('exe:pserve', 'virtualenv:bin', 'pserve')
 
         self.settings['develop'] = True
 
@@ -60,11 +61,18 @@ class HatakRecipe(Recipe):
 
         self.settings['packages'] = [
             'sqlalchemy-migrate',
-            'hatak',]
+            'hatak',
+            'waitress',
+            'pyramid_debugtoolbar',
+            'pyramid_beaker',
+            'pyramid_jinja2']
         self.settings['dependency_links'].append(
             'http://github.com/socek/hatak/tarball/master#egg=hatak-0.1')
         self.settings['directories'].append('project:application')
         self.settings['directories'].append('project:settings')
+        self.settings['entry_points'] = (
+            '[paste.app_factory]\n'
+            '\t\tmain = %(name)s.application.init:main')
 
     def gather_recipes(self):
         self.add_recipe(ProjectRecipe(False))

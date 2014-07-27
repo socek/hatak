@@ -1,5 +1,5 @@
 [app:main]
-use = egg:{{settings['project:name']}}
+use = egg:{{settings['name']}}
 
 {%- if settings['develop'] %}
 

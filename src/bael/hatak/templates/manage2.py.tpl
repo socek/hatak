@@ -4,7 +4,7 @@ from {{settings["name"]}}.application.init import Application
 
 
 def get_settings():
-    settings, paths = Application.get_settings()
+    settings, paths = Application.get_settings('{{settings["name"]}}')
     merged = settings.merged(paths)
     return merged.to_dict()
 

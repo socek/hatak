@@ -12,6 +12,9 @@ def make_settings(settings, paths):
     paths['session.data_dir'] = ["%(data)s", 'sessions', 'data']
     paths['session.lock_dir'] = ["%(data)s", 'sessions', 'lock']
 
+    paths['data'] = 'data'
+    paths['frontend'] = ['%(data)s', 'frontend.ini']
+    paths['logging:config'] = '%(frontend)s'
     # ----------------------------------------
     # This is example postgresql configuration
     # ----------------------------------------
@@ -25,8 +28,5 @@ def make_settings(settings, paths):
     # settings['db:port'] = '5432'
     # settings['db:db'] = '{{settings["name"]}}_develop'
     paths['sqlite_db'] = ["%(data)s", 'database.db']
-    settings['db:url'] = 'sqlite://%(sqlite_db)s' % paths
+    settings['db:url'] = 'sqlite:///%(sqlite_db)s' % paths
 
-    paths['data'] = 'data'
-    paths['frontend'] = ['%(data)s', 'frontend.ini']
-    paths['logging:config'] = '%(frontend)s'
