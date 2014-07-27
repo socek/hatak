@@ -10,6 +10,7 @@ from .tasks import (
     BaelfireInitFile,
     MigrationData,
     ProjectTemplates,
+    Develop,
 )
 from .templates import (
     MigrationManage,
@@ -90,6 +91,7 @@ class HatakRecipe(Recipe):
         self.add_task(Routes)
         self.add_task(ProjectTemplates)
         self.add_task(Settings)
+        self.add_task(Develop)
 
     def _filter_task(self, task):
         return task.get_path().startswith(self.prefix)

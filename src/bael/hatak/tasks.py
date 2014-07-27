@@ -35,6 +35,14 @@ class CreateDataDir(Task):
                 mkdir(directory)
 
 
+class Develop(Task):
+
+    def generate_links(self):
+        self.add_link('bael.hatak.frontendtask:FrontendIni')
+        self.add_link('bael.project.virtualenv:Develop')
+        self.add_link(Migration)
+
+
 class Serve(VirtualenvTask):
     name = 'Run development server'
     path = '/serve'
@@ -43,9 +51,7 @@ class Serve(VirtualenvTask):
         self.add_dependecy(AlwaysRebuild())
 
     def generate_links(self):
-        self.add_link('bael.hatak.frontendtask:FrontendIni')
-        self.add_link('bael.project.virtualenv:Develop')
-        self.add_link(Migration)
+        self.add_link(Develop)
 
     def make(self):
         self.pserve('%(data:frontend.ini)s --reload' % (self.paths))
