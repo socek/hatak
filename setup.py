@@ -2,8 +2,10 @@
 from setuptools import setup, find_packages
 
 install_requires = [
-    'bael.project'
+    'bael.project',
+    'pyramid',
 ]
+
 
 if __name__ == '__main__':
     setup(name='hatak',
@@ -15,7 +17,10 @@ if __name__ == '__main__':
           include_package_data=True,
           zip_safe=False,
           package_data={
-              '': ['.gitignore.tpl'],
+              '': [
+                  'hatak/templates/*.ini',
+                  'hatak/templates/*.tpl',
+                  'hatak/templates/project/*.tpl'],
           },
           entry_points="""\
               [console_scripts]

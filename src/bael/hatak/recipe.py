@@ -1,5 +1,3 @@
-from os.path import dirname
-
 from bael.project.recipe import ProjectRecipe
 from baelfire.application.application import Application
 from baelfire.recipe import Recipe
@@ -9,6 +7,15 @@ from .tasks import (
     Serve,
     MigrationVersioning,
     Migration,
+    BaelfireInitFile,
+    MigrationData,
+    ProjectTemplates,
+)
+from .templates import (
+    MigrationManage,
+    InitPy,
+    Routes,
+    Settings,
 )
 
 from .frontendtask import FrontendIni
@@ -16,19 +23,11 @@ from .frontendtask import FrontendIni
 
 class HatakRecipe(Recipe):
 
+    prefix = '/hatak'
+
     def create_settings(self):
-        self.set_path(
-            'project:main',
-            None,
-            dirname(dirname(dirname(__file__))))
-        self.set_path('project:src', 'project:main', 'src')
-        self.set_path('Hatak', 'project:main', 'Hatak')
-        self.set_path('Hatak:src', 'Hatak', 'src')
-        self.set_path(
-            'templates:frontend.ini',
-            None,
-            'frontend.ini')
-        self.set_path('data', 'project:main', 'data')
+        self.set_path('project:src', 'cwd', 'src')
+        self.set_path('data', 'cwd', 'data')
         self.set_path('data:frontend.ini', 'data', 'frontend.ini')
         self.set_path('data:log', 'data', 'all.log')
         self.set_path('uwsgi:socket', None, '/tmp/uwsgi.socket')
@@ -41,16 +40,29 @@ class HatakRecipe(Recipe):
         self.set_path('flags:dbversioning', 'flags', 'versioning.flag')
         self.set_path('flags:dbmigration', 'flags', 'dbmigration.flag')
 
-        self.set_path('migration:main', 'project:main', 'migrations')
-        self.set_path('migration:manage', 'migration:main', 'manage.py')
+        self.set_path('migration:main', 'cwd', 'migrations')
+        self.set_path('migration:manage', 'migration:main', 'manage2.py')
         self.set_path('migration:versions', 'migration:main', 'versions')
 
-        self.settings['project:name'] = 'KasaMoja'
+        self.set_path('exe:migrate', 'virtualenv:bin', 'migrate')
+
         self.settings['develop'] = True
 
+        self.set_path('project:application', 'project:home', 'application')
+        self.set_path('project:initpy', 'project:application', 'init.py')
+        self.set_path('project:settings', 'project:application', 'settings')
+        self.set_path('project:routes', 'project:application', 'routes.py')
+        self.set_path('project:default', 'project:settings', 'default.py')
+
     def final_settings(self):
-        self.set_path('virtualenv_path', 'project:main', 'venv')
+        self.set_path('virtualenv_path', 'cwd', 'venv')
         self.set_path('flags', 'data', 'flags')
+
+        self.settings['packages'] = ['sqlalchemy-migrate']
+        self.settings['dependency_links'].append(
+            'http://github.com/socek/hatak/tarball/master#egg=hatak-0.1')
+        self.settings['directories'].append('project:application')
+        self.settings['directories'].append('project:settings')
 
     def gather_recipes(self):
         self.add_recipe(ProjectRecipe(False))
@@ -61,6 +73,16 @@ class HatakRecipe(Recipe):
         self.add_task(Serve)
         self.add_task(MigrationVersioning)
         self.add_task(Migration)
+        self.add_task(BaelfireInitFile)
+        self.add_task(MigrationData)
+        self.add_task(MigrationManage)
+        self.add_task(InitPy)
+        self.add_task(Routes)
+        self.add_task(ProjectTemplates)
+        self.add_task(Settings)
+
+    def _filter_task(self, task):
+        return task.get_path().startswith(self.prefix)
 
 
 def run():

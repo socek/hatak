@@ -2,6 +2,7 @@ from os import mkdir, path
 from glob import glob
 
 from bael.project.virtualenv import VirtualenvTask
+from baelfire.application.commands.init.models import InitFile
 from baelfire.dependencies import (
     AlwaysRebuild,
     FileDoesNotExists,
@@ -13,7 +14,7 @@ from baelfire.task import Task
 
 class CreateDataDir(Task):
     name = 'Creating data directory'
-    path = '/hatak/data'
+    path = '/data'
 
     directorie_names = [
         'data',
@@ -36,7 +37,7 @@ class CreateDataDir(Task):
 
 class Serve(Task):
     name = 'Run development server'
-    path = '/hatak/serve'
+    path = '/serve'
 
     def generate_dependencies(self):
         self.add_dependecy(AlwaysRebuild())
@@ -50,15 +51,28 @@ class Serve(Task):
         self.command(['pserve %(data:frontend.ini)s --reload' % (self.paths)])
 
 
-class Migration(VirtualenvTask):
+class MigrationBase(VirtualenvTask):
 
     def migration(self, command, *args, **kwargs):
         command = self.paths['migration:manage'] + ' ' + command
         return self.python(command, *args, **kwargs)
 
+    def migrate(self, command, *args, **kwargs):
+        command = self.paths['exe:migrate'] + ' ' + command
+        return self.command([command], *args, **kwargs)
 
-class MigrationVersioning(Migration):
-    path = '/hatak/migration/versioning'
+
+class MigrationData(MigrationBase):
+
+    def get_output_file(self):
+        return self.paths['migration:main']
+
+    def make(self):
+        self.migrate('create %(migration:main)s "project!"' % self.paths)
+
+
+class MigrationVersioning(MigrationBase):
+    path = '/migration/versioning'
 
     def get_output_file(self):
         return self.paths['flags:dbversioning']
@@ -66,6 +80,8 @@ class MigrationVersioning(Migration):
     def generate_links(self):
         self.add_link('bael.hatak.frontendtask:FrontendIni')
         self.add_link('bael.project.virtualenv:Develop')
+        self.add_link('bael.hatak.templates:MigrationManage')
+        self.add_link(ProjectTemplates)
 
     def make(self):
         try:
@@ -75,8 +91,8 @@ class MigrationVersioning(Migration):
         self.touchme()
 
 
-class Migration(Migration):
-    path = '/hatak/migration'
+class Migration(MigrationBase):
+    path = '/migration'
 
     def generate_dependencies(self):
         super().generate_dependencies()
@@ -92,3 +108,26 @@ class Migration(Migration):
     def make(self):
         self.migration('upgrade')
         self.touchme()
+
+
+class BaelfireInitFile(Task):
+
+    path = '/initfile'
+
+    def get_output_file(self):
+        return InitFile.filename
+
+    def make(self):
+        initfile = InitFile()
+        initfile.assign('bael.hatak.recipe:HatakRecipe')
+        initfile.save()
+
+
+class ProjectTemplates(Task):
+
+    path = '/templates'
+
+    def generate_links(self):
+        self.add_link('bael.hatak.templates:InitPy')
+        self.add_link('bael.hatak.templates:Routes')
+        self.add_link('bael.hatak.templates:Settings')
