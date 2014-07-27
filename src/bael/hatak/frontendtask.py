@@ -9,6 +9,7 @@ class FrontendIni(TemplateTask):
         super().generate_links()
         self.add_link('bael.hatak.tasks:CreateDataDir')
         self.add_link('bael.hatak.tasks:BaelfireInitFile')
+        self.add_link('bael.project.tasks:GatherData')
 
     def get_output_file(self):
         return self.paths['data:frontend.ini']

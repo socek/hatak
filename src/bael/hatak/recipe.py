@@ -72,7 +72,7 @@ class HatakRecipe(Recipe):
         self.settings['directories'].append('project:settings')
         self.settings['entry_points'] = (
             '[paste.app_factory]\n'
-            '\t\tmain = %(name)s.application.init:main')
+            '\t\tmain = %(package:name)s.application.init:main')
 
     def gather_recipes(self):
         self.add_recipe(ProjectRecipe(False))

@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 from migrate.versioning.shell import main
-from {{settings["name"]}}.application.init import Application
+from {{settings["package:name"]}}.application.init import Application
 
 
 def get_settings():
-    settings, paths = Application.get_settings('{{settings["name"]}}')
+    settings, paths = Application.get_settings('{{settings["package:name"]}}')
     merged = settings.merged(paths)
     return merged.to_dict()
 

@@ -2,7 +2,7 @@ def make_settings(settings, paths):
     settings['includes'] = [
         'pyramid_debugtoolbar',
         'pyramid_beaker', ]
-    settings['jinja2.directories'] = '{{settings["name"]}}:templates'
+    settings['jinja2.directories'] = '{{settings["package:name"]}}:templates'
     settings['authentication_debug'] = False
     settings['session.type'] = 'file'
     settings['session.key'] = 'needtochangethis'
@@ -26,7 +26,7 @@ def make_settings(settings, paths):
     # settings['db:password'] = 'develop'
     # settings['db:host'] = 'localhost'
     # settings['db:port'] = '5432'
-    # settings['db:db'] = '{{settings["name"]}}_develop'
+    # settings['db:db'] = '{{settings["package:name"]}}_develop'
     paths['sqlite_db'] = ["%(data)s", 'database.db']
     settings['db:url'] = 'sqlite:///%(sqlite_db)s' % paths
 
