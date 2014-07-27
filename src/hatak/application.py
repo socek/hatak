@@ -10,8 +10,9 @@ class Application(object):
 
     """Prepering and configuring project."""
 
-    def __init__(self, make_routes):
+    def __init__(self, module, make_routes):
         self.make_routes = make_routes
+        self.module = module
 
     def __call__(self, settings={}):
         self.settings = self.generate_settings(settings)
@@ -25,13 +26,13 @@ class Application(object):
         return self.config.make_wsgi_app()
 
     def generate_settings(self, settings):
-        settings, paths = self.get_settings(settings)
+        settings, paths = self.get_settings(self.module, settings)
         merged = settings.merged(paths)
         return merged.to_dict()
 
     @classmethod
-    def get_settings(cls, settings={}):
-        factory = Factory('kasamoja.application')
+    def get_settings(cls, module, settings={}):
+        factory = Factory('%s.application' % (module))
         settings, paths = factory.make_settings(
             settings=settings,
             additional_modules=[

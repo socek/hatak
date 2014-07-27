@@ -58,7 +58,9 @@ class HatakRecipe(Recipe):
         self.set_path('virtualenv_path', 'cwd', 'venv')
         self.set_path('flags', 'data', 'flags')
 
-        self.settings['packages'] = ['sqlalchemy-migrate']
+        self.settings['packages'] = [
+            'sqlalchemy-migrate',
+            'hatak',]
         self.settings['dependency_links'].append(
             'http://github.com/socek/hatak/tarball/master#egg=hatak-0.1')
         self.settings['directories'].append('project:application')
