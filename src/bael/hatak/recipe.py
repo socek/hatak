@@ -66,8 +66,6 @@ class HatakRecipe(Recipe):
             'pyramid_debugtoolbar',
             'pyramid_beaker',
             'pyramid_jinja2']
-        self.settings['dependency_links'].append(
-            'http://github.com/socek/hatak/tarball/master#egg=hatak-0.1')
         self.settings['directories'].append('project:application')
         self.settings['directories'].append('project:settings')
         self.settings['entry_points'] = (
