@@ -17,9 +17,8 @@ from .templates import (
     InitPy,
     Routes,
     Settings,
+    FrontendIni,
 )
-
-from .frontendtask import FrontendIni
 
 
 class HatakRecipe(Recipe):

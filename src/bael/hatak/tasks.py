@@ -38,7 +38,7 @@ class CreateDataDir(Task):
 class Develop(Task):
 
     def generate_links(self):
-        self.add_link('bael.hatak.frontendtask:FrontendIni')
+        self.add_link('bael.hatak.templates:FrontendIni')
         self.add_link('bael.project.virtualenv:Develop')
         self.add_link(Migration)
 
@@ -88,7 +88,7 @@ class MigrationVersioning(MigrationBase):
         return self.paths['flags:dbversioning']
 
     def generate_links(self):
-        self.add_link('bael.hatak.frontendtask:FrontendIni')
+        self.add_link('bael.hatak.templates:FrontendIni')
         self.add_link('bael.project.virtualenv:Develop')
         self.add_link('bael.hatak.templates:MigrationManage')
         self.add_link(ProjectTemplates)

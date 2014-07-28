@@ -41,3 +41,20 @@ class Settings(TemplateTask):
 
     def get_output_file(self):
         return self.paths['project:default']
+
+
+class FrontendIni(TemplateTask):
+    name = 'Creating frontend.ini file'
+    path = '/frontend.ini'
+
+    def generate_links(self):
+        super().generate_links()
+        self.add_link('bael.hatak.tasks:CreateDataDir')
+        self.add_link('bael.hatak.tasks:BaelfireInitFile')
+        self.add_link('bael.project.tasks:GatherData')
+
+    def get_output_file(self):
+        return self.paths['data:frontend.ini']
+
+    def get_template_path(self):
+        return 'frontend.ini.tpl'
