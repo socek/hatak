@@ -10,6 +10,7 @@ install_requires = [
 if __name__ == '__main__':
     setup(name='hatak',
           version='0.1',
+          license='Apache License 2.0',
           packages=find_packages('src'),
           package_dir={'': 'src'},
           install_requires=install_requires,
