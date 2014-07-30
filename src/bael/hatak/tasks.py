@@ -61,6 +61,24 @@ class Serve(VirtualenvTask):
         return self.command([command], *args, **kwargs)
 
 
+class Shell(VirtualenvTask):
+    name = 'Run development shell'
+    path = '/shell'
+
+    def generate_dependencies(self):
+        self.add_dependecy(AlwaysRebuild())
+
+    def generate_links(self):
+        self.add_link(Develop)
+
+    def make(self):
+        self.pshell('%(data:frontend.ini)s' % (self.paths))
+
+    def pshell(self, command, *args, **kwargs):
+        command = self.paths['exe:pshell'] + ' ' + command
+        return self.command([command], *args, **kwargs)
+
+
 class MigrationBase(VirtualenvTask):
 
     def migration(self, command, *args, **kwargs):

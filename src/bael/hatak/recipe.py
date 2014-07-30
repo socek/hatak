@@ -11,6 +11,7 @@ from .tasks import (
     MigrationData,
     ProjectTemplates,
     Develop,
+    Shell,
 )
 from .templates import (
     MigrationManage,
@@ -46,6 +47,7 @@ class HatakRecipe(Recipe):
 
         self.set_path('exe:migrate', 'virtualenv:bin', 'migrate')
         self.set_path('exe:pserve', 'virtualenv:bin', 'pserve')
+        self.set_path('exe:pshell', 'virtualenv:bin', 'pshell')
 
         self.settings['develop'] = True
 
@@ -89,6 +91,7 @@ class HatakRecipe(Recipe):
         self.add_task(ProjectTemplates)
         self.add_task(Settings)
         self.add_task(Develop)
+        self.add_task(Shell)
 
     def _filter_task(self, task):
         return task.get_path().startswith(self.prefix)
