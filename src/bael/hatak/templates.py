@@ -5,6 +5,10 @@ from baelfire.template import TemplateTask
 
 class MigrationManage(TemplateTask):
 
+    def __init__(self, *args, **kwargs):
+        kwargs['check_template'] = False
+        super().__init__(*args, **kwargs)
+
     def get_output_file(self):
         return self.paths['migration:manage']
 
@@ -18,6 +22,10 @@ class MigrationManage(TemplateTask):
 
 class InitPy(TemplateTask):
 
+    def __init__(self, *args, **kwargs):
+        kwargs['check_template'] = False
+        super().__init__(*args, **kwargs)
+
     def get_template_path(self):
         return path.join('project/init.py.tpl')
 
@@ -27,6 +35,10 @@ class InitPy(TemplateTask):
 
 class Routes(TemplateTask):
 
+    def __init__(self, *args, **kwargs):
+        kwargs['check_template'] = False
+        super().__init__(*args, **kwargs)
+
     def get_template_path(self):
         return path.join('project/routes.py.tpl')
 
@@ -35,6 +47,10 @@ class Routes(TemplateTask):
 
 
 class Settings(TemplateTask):
+
+    def __init__(self, *args, **kwargs):
+        kwargs['check_template'] = False
+        super().__init__(*args, **kwargs)
 
     def get_template_path(self):
         return path.join('project/settings.py.tpl')
