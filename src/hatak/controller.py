@@ -21,12 +21,22 @@ class Controller(object):
         }
 
     def __call__(self):
-        self.data = {}
         self.before_filter()
+        self.data = self.generate_default_data()
         data = self.make() or {}
         self.data.update(data)
         self.after_filter()
         return self.data
+
+    def generate_default_data(self):
+        return {
+            'request': self.request,
+            'static': self._get_static_path,
+            'route': self.request.route_path,
+        }
+
+    def _get_static_path(self, url):
+        return self.request.static_path(self.settings['static'] + url)
 
     def make(self):
         pass
