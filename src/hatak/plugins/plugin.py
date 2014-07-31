@@ -26,3 +26,6 @@ class Plugin(object):
 
     def add_to_registry(self):
         pass
+
+    def before_config(self):
+        pass

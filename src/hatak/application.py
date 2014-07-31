@@ -1,12 +1,8 @@
-import logging
-
 from pyramid.config import Configurator
 from smallsettings import Factory
 
-from .plugins.jinja2 import Jinja2Plugin
-from .plugins.sql import SqlPlugin
-from .plugins.beaker import BeakerPlugin
-from .plugins.debugtoolbar import DebugtoolbarPlugin
+from .plugins import Jinja2Plugin, SqlPlugin, BeakerPlugin, DebugtoolbarPlugin
+from .plugins import LoggingPlugin
 
 
 class Application(object):
@@ -20,6 +16,7 @@ class Application(object):
         self.generate_plugins()
 
     def generate_plugins(self):
+        self.add_plugin(LoggingPlugin())
         self.add_plugin(Jinja2Plugin())
         self.add_plugin(SqlPlugin())
         self.add_plugin(BeakerPlugin())
@@ -31,7 +28,7 @@ class Application(object):
 
     def __call__(self, settings={}):
         self.settings = self.generate_settings(settings)
-        self.initialize_logging()
+        self.make_before_config()
         self.create_config()
         self.make_pyramid_includes()
         self.make_routes(self)
@@ -54,15 +51,14 @@ class Application(object):
             ])
         return settings, paths
 
-    def initialize_logging(self):
-        logging.config.fileConfig(
-            self.settings['logging:config'],
-            disable_existing_loggers=False)
-
     def create_config(self):
         self.config = Configurator(
             settings=self.settings,
         )
+
+    def make_before_config(self):
+        for plugin in self.plugins:
+            plugin.before_config()
 
     def make_pyramid_includes(self):
         for plugin in self.plugins:
