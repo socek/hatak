@@ -1,7 +1,4 @@
 def make_settings(settings, paths):
-    settings['includes'] = [
-        'pyramid_debugtoolbar',
-        'pyramid_beaker', ]
     settings['jinja2.directories'] = '{{settings["package:name"]}}:templates'
     settings['authentication_debug'] = False
     settings['session.type'] = 'file'

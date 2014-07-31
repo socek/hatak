@@ -1,6 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.ext.declarative import AbstractConcreteBase
 
 DeclatativeBase = declarative_base()
 
@@ -19,7 +20,7 @@ def get_or_create(model, session, **kwargs):
             return session.query(model).filter_by(**kwargs).one()
 
 
-class Base(DeclatativeBase):
+class Base(AbstractConcreteBase, DeclatativeBase):
 
     @classmethod
     def get_or_create(cls, *args, **kwargs):
