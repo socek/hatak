@@ -13,7 +13,7 @@ def get_or_create(model, session, **kwargs):
         created = model(**kwargs)
         try:
             session.add(created)
-            session.flush()
+            session.commit()
             return created
         except IntegrityError:
             session.rollback()
