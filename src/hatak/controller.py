@@ -1,8 +1,11 @@
 class Controller(object):
 
-    def __init__(self, request):
+    def __init__(self, root_factory, request):
         self.request = request
+        self.root_factory = root_factory
         self._unpack_request()
+        self.before = []
+        self.after = []
 
     def _unpack_request(self):
         for name, value in self._request_args().items():
@@ -29,18 +32,12 @@ class Controller(object):
         pass
 
     def before_filter(self):
-        for method in self.before():
+        for method in self.before:
             method()
 
     def after_filter(self):
-        for method in self.after():
+        for method in self.after:
             method()
-
-    def before(self):
-        return []
-
-    def after(self):
-        return []
 
 
 class DatabaseController(Controller):
