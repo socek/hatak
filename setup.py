@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from setuptools import setup, find_packages
+from src.hatak import VERSION
 
 install_requires = [
     'bael.project==0.1.1',
@@ -9,7 +10,7 @@ install_requires = [
 
 if __name__ == '__main__':
     setup(name='hatak',
-          version='0.1.1',
+          version=VERSION,
           license='Apache License 2.0',
           packages=find_packages('src'),
           package_dir={'': 'src'},
