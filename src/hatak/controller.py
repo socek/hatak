@@ -1,3 +1,6 @@
+from pyramid.httpexceptions import HTTPFound
+
+
 class Controller(object):
 
     def __init__(self, root_factory, request):
@@ -6,6 +9,7 @@ class Controller(object):
         self._unpack_request()
         self.before = []
         self.after = []
+        self.response = None
 
     def _unpack_request(self):
         for name, value in self._request_args().items():
@@ -26,7 +30,7 @@ class Controller(object):
         data = self.make() or {}
         self.data.update(data)
         self.after_filter()
-        return self.data
+        return self.response or self.data
 
     def generate_default_data(self):
         return {
@@ -48,6 +52,10 @@ class Controller(object):
     def after_filter(self):
         for method in self.after:
             method()
+
+    def redirect(self, to):
+        url = self.request.route_url(to)
+        self.response = HTTPFound(location=url)
 
 
 class DatabaseController(Controller):
