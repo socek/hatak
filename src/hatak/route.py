@@ -39,14 +39,16 @@ class Route(object):
             *args,
             **kwargs)
 
+        self.add_view(controller_url, route_name=route)
+
+    def add_view(self, controller_url, route=None, **kwargs):
         url = self.convert_url(controller_url)
 
         controller_class = self.config.maybe_dotted(url)
-        kwargs = {}
         for name in self.controller_values:
             self.set_controller_config(kwargs, controller_class, name)
 
-        self.config.add_view(url, route_name=route, **kwargs)
+        self.config.add_view(url, **kwargs)
 
     def convert_url(self, url):
         return self.prefix + url
