@@ -30,7 +30,11 @@ class Controller(object):
         data = self.make() or {}
         self.data.update(data)
         self.after_filter()
-        return self.response or self.data
+        if self.response is None:
+            self.make_helpers()
+            return self.data
+        else:
+            return self.response
 
     def generate_default_data(self):
         return {
@@ -59,6 +63,9 @@ class Controller(object):
 
     def add_helper(self, name, cls, *args, **kwargs):
         self.data[name] = cls(self.request, *args, **kwargs)
+
+    def make_helpers(self):
+        pass
 
 
 class DatabaseController(Controller):
