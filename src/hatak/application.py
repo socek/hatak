@@ -63,6 +63,7 @@ class Application(object):
     def make_pyramid_includes(self):
         for plugin in self.plugins:
             plugin.make_config_include_if_able()
+        self.config.commit()
 
     def make_registry(self):
         self.config.registry['settings'] = self.settings
