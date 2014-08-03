@@ -1,3 +1,5 @@
+from jinja2 import Markup
+
 from .plugin import Plugin
 
 
@@ -29,7 +31,7 @@ class Jinja2Helper(object):
     def render(self, template):
         env = self.registry['jinja2']
         template = env.get_template(template)
-        return template.render(**self.data)
+        return Markup(template.render(**self.data))
 
     def __call__(self):
         self.make()
