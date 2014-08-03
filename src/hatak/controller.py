@@ -73,4 +73,5 @@ class DatabaseController(Controller):
     def _request_args(self):
         data = super()._request_args()
         data['db'] = self.request.registry['db']
+        data['query'] = data['db'].query
         return data
