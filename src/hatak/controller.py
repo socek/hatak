@@ -57,6 +57,9 @@ class Controller(object):
         url = self.request.route_url(to)
         self.response = HTTPFound(location=url)
 
+    def add_helper(self, name, cls, *args, **kwargs):
+        self.data[name] = cls(self.request, *args, **kwargs)
+
 
 class DatabaseController(Controller):
 
