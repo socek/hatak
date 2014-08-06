@@ -138,6 +138,21 @@ class Migration(MigrationBase):
         self.touchme()
 
 
+class MigrationScript(MigrationBase):
+    path = '/script'
+
+    def generate_dependencies(self):
+        super().generate_dependencies()
+        self.add_dependecy(AlwaysRebuild())
+
+    def generate_links(self):
+        self.add_link(MigrationVersioning)
+
+    def make(self):
+        description = self.ask_for('description', 'Migration description')
+        self.migration('script "%s"' % (description,))
+
+
 class BaelfireInitFile(Task):
 
     path = '/initfile'

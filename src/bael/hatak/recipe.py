@@ -12,6 +12,7 @@ from .tasks import (
     ProjectTemplates,
     Develop,
     Shell,
+    MigrationScript,
 )
 from .templates import (
     MigrationManage,
@@ -92,6 +93,7 @@ class HatakRecipe(Recipe):
         self.add_task(Settings)
         self.add_task(Develop)
         self.add_task(Shell)
+        self.add_task(MigrationScript)
 
     def _filter_task(self, task):
         return task.get_path().startswith(self.prefix)
