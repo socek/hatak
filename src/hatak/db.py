@@ -25,3 +25,11 @@ class Base(AbstractConcreteBase, DeclatativeBase):
     @classmethod
     def get_or_create(cls, *args, **kwargs):
         return get_or_create(cls, *args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.request = None
+
+    def assign_request(self, request):
+        self.request = request
+        self.registry = request.registry
