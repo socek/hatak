@@ -27,6 +27,8 @@ class Route(object):
     def __init__(self, app, prefix=None):
         self.app = app
         self.prefix = prefix
+        self.app.config.registry['route'] = self
+        self.routes = {}
 
     @property
     def config(self):
@@ -45,6 +47,10 @@ class Route(object):
         url = self.convert_url(controller_url)
 
         controller_class = self.config.maybe_dotted(url)
+
+        if 'route_name' in kwargs:
+            self.routes[kwargs['route_name']] = controller_class
+
         for name in self.controller_values:
             self.set_controller_config(kwargs, controller_class, name)
 
