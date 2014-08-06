@@ -17,6 +17,7 @@ class Jinja2Helper(object):
     def __init__(self, request):
         self.request = request
         self.registry = request.registry
+        self.session = request.session
         self.generate_data()
 
     def generate_data(self):
@@ -33,8 +34,8 @@ class Jinja2Helper(object):
         template = env.get_template(template)
         return Markup(template.render(**self.data))
 
-    def __call__(self):
-        self.make()
+    def __call__(self, *args, **kwargs):
+        self.make(*args, **kwargs)
         return self.render(self.get_template())
 
     def make(self):
