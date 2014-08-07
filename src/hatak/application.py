@@ -3,6 +3,7 @@ from smallsettings import Factory
 
 from .plugins import Jinja2Plugin, SqlPlugin, BeakerPlugin, DebugtoolbarPlugin
 from .plugins import LoggingPlugin
+from .unpackrequest import UnpackRequest
 
 
 class Application(object):
@@ -12,8 +13,18 @@ class Application(object):
     def __init__(self, module, make_routes):
         self.make_routes = make_routes
         self.module = module
+        self.initialize_unpacker()
         self.plugins = []
         self.generate_plugins()
+
+    def initialize_unpacker(self):
+        self.unpacker = UnpackRequest()
+        self.unpacker.add('POST', lambda req: req.POST)
+        self.unpacker.add('GET', lambda req: req.GET)
+        self.unpacker.add('matchdict', lambda req: req.matchdict)
+        self.unpacker.add('settings', lambda req: req.registry['settings'])
+        self.unpacker.add('session', lambda req: req.session)
+        self.unpacker.add('registry', lambda req: req.registry)
 
     def generate_plugins(self):
         self.add_plugin(LoggingPlugin())
@@ -25,6 +36,7 @@ class Application(object):
     def add_plugin(self, plugin):
         self.plugins.append(plugin)
         plugin.init(self)
+        plugin.add_unpackers(self.unpacker)
 
     def __call__(self, settings={}):
         self.settings = self.generate_settings(settings)
@@ -66,6 +78,7 @@ class Application(object):
         self.config.commit()
 
     def make_registry(self):
+        self.config.registry['unpacker'] = self.unpacker
         self.config.registry['settings'] = self.settings
         for plugin in self.plugins:
             plugin.add_to_registry()

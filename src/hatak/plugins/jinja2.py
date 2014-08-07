@@ -1,6 +1,7 @@
 from jinja2 import Markup
 
 from .plugin import Plugin
+from hatak.unpackrequest import unpack
 
 
 class Jinja2Plugin(Plugin):
@@ -15,9 +16,7 @@ class Jinja2Plugin(Plugin):
 class Jinja2Helper(object):
 
     def __init__(self, request):
-        self.request = request
-        self.registry = request.registry
-        self.session = request.session
+        unpack(self, request)
         self.generate_data()
 
     def generate_data(self):

@@ -1,4 +1,5 @@
 from pyramid.httpexceptions import HTTPFound
+from .unpackrequest import unpack
 
 
 class Controller(object):
@@ -6,23 +7,11 @@ class Controller(object):
     def __init__(self, root_factory, request):
         self.request = request
         self.root_factory = root_factory
-        self._unpack_request()
+        unpack(self, request)
+
         self.before = []
         self.after = []
         self.response = None
-
-    def _unpack_request(self):
-        for name, value in self._request_args().items():
-            setattr(self, name, value)
-
-    def _request_args(self):
-        return {
-            'POST': self.request.POST,
-            'GET': self.request.GET,
-            'matchdict': self.request.matchdict,
-            'settings': self.request.registry['settings'],
-            'session': self.request.session,
-        }
 
     def __call__(self):
         self.before_filter()
@@ -68,10 +57,10 @@ class Controller(object):
         pass
 
 
-class DatabaseController(Controller):
+class ControllerPlugin(object):
 
-    def _request_args(self):
-        data = super()._request_args()
-        data['db'] = self.request.registry['db']
-        data['query'] = data['db'].query
-        return data
+    def __init__(self):
+        pass
+
+    def initialize(self, request):
+        unpack(self, request)
