@@ -15,6 +15,7 @@ class Application(object):
         self.module = module
         self.initialize_unpacker()
         self.plugins = []
+        self.controller_plugins = []
         self.generate_plugins()
 
     def initialize_unpacker(self):
@@ -37,11 +38,13 @@ class Application(object):
         self.plugins.append(plugin)
         plugin.init(self)
         plugin.add_unpackers(self.unpacker)
+        plugin.add_controller_plugins(self.controller_plugins)
 
     def __call__(self, settings={}):
         self.settings = self.generate_settings(settings)
         self.make_before_config()
         self.create_config()
+        self.make_after_config()
         self.make_pyramid_includes()
         self.make_routes(self)
         self.make_registry()
@@ -72,6 +75,10 @@ class Application(object):
         for plugin in self.plugins:
             plugin.before_config()
 
+    def make_after_config(self):
+        for plugin in self.plugins:
+            plugin.after_config()
+
     def make_pyramid_includes(self):
         for plugin in self.plugins:
             plugin.make_config_include_if_able()
@@ -80,5 +87,9 @@ class Application(object):
     def make_registry(self):
         self.config.registry['unpacker'] = self.unpacker
         self.config.registry['settings'] = self.settings
+        self.config.registry['controller_plugins'] = self.controller_plugins
         for plugin in self.plugins:
             plugin.add_to_registry()
+
+    def add_controller_plugin(self, plugin):
+        self.controller_plugins.append(plugin)

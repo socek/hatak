@@ -30,5 +30,11 @@ class Plugin(object):
     def before_config(self):
         pass
 
+    def after_config(self):
+        pass
+
     def add_unpackers(self, unpacker):
+        pass
+
+    def add_controller_plugins(self, plugins):
         pass
