@@ -76,6 +76,14 @@ class ControllerPlugin(object):
         self.request = self.controller.request
         unpack(self, self.request)
         self.add_helper = self.controller.add_helper
+        self.add_controller_methods()
+
+    def add_controller_methods(self):
+        pass
+
+    def add_method(self, name):
+        method = getattr(self, name)
+        setattr(self.controller, name, method)
 
     def before_filter(self):
         pass
