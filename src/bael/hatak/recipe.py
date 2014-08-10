@@ -13,6 +13,7 @@ from .tasks import (
     Develop,
     Shell,
     MigrationScript,
+    Uwsgi,
 )
 from .templates import (
     MigrationManage,
@@ -49,6 +50,7 @@ class HatakRecipe(Recipe):
         self.set_path('exe:migrate', 'virtualenv:bin', 'migrate')
         self.set_path('exe:pserve', 'virtualenv:bin', 'pserve')
         self.set_path('exe:pshell', 'virtualenv:bin', 'pshell')
+        self.set_path('exe:uwsgi', 'virtualenv:bin', 'uwsgi')
 
         self.settings['develop'] = True
 
@@ -68,7 +70,8 @@ class HatakRecipe(Recipe):
             'waitress',
             'pyramid_debugtoolbar',
             'pyramid_beaker',
-            'pyramid_jinja2']
+            'pyramid_jinja2',
+            'uwsgi']
         self.settings['directories'].append('project:application')
         self.settings['directories'].append('project:settings')
         self.settings['entry_points'] = (
@@ -94,6 +97,7 @@ class HatakRecipe(Recipe):
         self.add_task(Develop)
         self.add_task(Shell)
         self.add_task(MigrationScript)
+        self.add_task(Uwsgi)
 
     def _filter_task(self, task):
         return task.get_path().startswith(self.prefix)
