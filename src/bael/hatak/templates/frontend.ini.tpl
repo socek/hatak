@@ -59,4 +59,5 @@ chmod-socket = 777
 
 pythonpath = {{paths['venv:site-packages']}}*.egg
 log-slow = true
-
+pidfile = {{paths['uwsgi:pid']}}
+daemonize2 = true

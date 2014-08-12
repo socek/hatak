@@ -13,7 +13,6 @@ from .tasks import (
     Develop,
     Shell,
     MigrationScript,
-    Uwsgi,
 )
 from .templates import (
     MigrationManage,
@@ -21,6 +20,12 @@ from .templates import (
     Routes,
     Settings,
     FrontendIni,
+)
+
+from .uwsgi import (
+    UwsgiStart,
+    UwsgiStop,
+    UwsgiRestart,
 )
 
 
@@ -34,7 +39,7 @@ class HatakRecipe(Recipe):
         self.set_path('data:frontend.ini', 'data', 'frontend.ini')
         self.set_path('data:log', 'data', 'all.log')
         self.set_path('uwsgi:socket', None, '/tmp/uwsgi.socket')
-        self.set_path('uwsgi:socket', None, '/tmp/uwsgi.socket')
+        self.set_path('uwsgi:pid', 'data', 'uwsgi.pid')
         self.set_path(
             'venv:site-packages',
             'virtualenv_path',
@@ -97,7 +102,9 @@ class HatakRecipe(Recipe):
         self.add_task(Develop)
         self.add_task(Shell)
         self.add_task(MigrationScript)
-        self.add_task(Uwsgi)
+        self.add_task(UwsgiStart)
+        self.add_task(UwsgiStop)
+        self.add_task(UwsgiRestart)
 
     def _filter_task(self, task):
         return task.get_path().startswith(self.prefix)

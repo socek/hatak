@@ -174,20 +174,3 @@ class ProjectTemplates(Task):
         self.add_link('bael.hatak.templates:InitPy')
         self.add_link('bael.hatak.templates:Routes')
         self.add_link('bael.hatak.templates:Settings')
-
-
-class Uwsgi(Task):
-    path = '/uwsgi'
-
-    def generate_dependencies(self):
-        self.add_dependecy(AlwaysRebuild())
-
-    def generate_links(self):
-        self.add_link(Develop)
-
-    def make(self):
-        self.uwsgi('--ini-paste %(data:frontend.ini)s' % (self.paths))
-
-    def uwsgi(self, command, *args, **kwargs):
-        command = self.paths['exe:uwsgi'] + ' ' + command
-        return self.command([command], *args, **kwargs)
