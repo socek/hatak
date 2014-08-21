@@ -57,14 +57,25 @@ class Application(object):
         return merged.to_dict()
 
     @classmethod
-    def get_settings(cls, module, settings={}):
+    def get_settings(cls, module, settings={}, additional_modules=None):
+        additional_modules = additional_modules or [
+            ('local', False),
+        ]
         factory = Factory('%s.application' % (module))
         settings, paths = factory.make_settings(
             settings=settings,
-            additional_modules=[
-                ('local', False),
-            ])
+            additional_modules=additional_modules,)
         return settings, paths
+
+    @classmethod
+    def get_settings_for_tests(cls, module, settings={}):
+        additional_modules = [
+            ('tests', True),
+            ('local', False),
+            ('local_test', False),
+        ]
+
+        return cls.get_settings(module, settings, additional_modules)
 
     def create_config(self):
         self.config = Configurator(
