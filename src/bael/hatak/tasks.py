@@ -43,15 +43,18 @@ class Develop(Task):
         self.add_link(Migration)
 
 
-class Serve(VirtualenvTask):
-    name = 'Run development server'
-    path = '/serve'
+class CommandTask(VirtualenvTask):
 
     def generate_dependencies(self):
         self.add_dependecy(AlwaysRebuild())
 
     def generate_links(self):
         self.add_link(Develop)
+
+
+class Serve(CommandTask):
+    name = 'Run development server'
+    path = '/serve'
 
     def make(self):
         self.pserve('%(data:frontend.ini)s --reload' % (self.paths))
@@ -174,3 +177,28 @@ class ProjectTemplates(Task):
         self.add_link('bael.hatak.templates:InitPy')
         self.add_link('bael.hatak.templates:Routes')
         self.add_link('bael.hatak.templates:Settings')
+
+
+class Tests(CommandTask):
+    name = 'Run tests'
+    path = '/tests'
+
+    def make(self):
+        if 'g' in self.kwargs:
+            self.tests('-g %s' % (self.kwargs['g'][0]))
+        elif 'c' in self.kwargs:
+            self.tests('-c %s' % (self.kwargs['c'][0]))
+        else:
+            self.tests()
+
+    def tests(self, command='', *args, **kwargs):
+        command = self.paths['exe:tests'] + ' ' + command
+        return self.command([command], *args, **kwargs)
+
+
+class TestsList(Tests):
+    name = 'Show all tests'
+    path = '/tests/list'
+
+    def make(self):
+        self.tests('-l')

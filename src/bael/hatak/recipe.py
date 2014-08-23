@@ -13,6 +13,8 @@ from .tasks import (
     Develop,
     Shell,
     MigrationScript,
+    Tests,
+    TestsList,
 )
 from .templates import (
     MigrationManage,
@@ -56,6 +58,7 @@ class HatakRecipe(Recipe):
         self.set_path('exe:pserve', 'virtualenv:bin', 'pserve')
         self.set_path('exe:pshell', 'virtualenv:bin', 'pshell')
         self.set_path('exe:uwsgi', 'virtualenv:bin', 'uwsgi')
+        self.set_path('exe:tests', 'virtualenv:bin', 'tests')
 
         self.settings['develop'] = True
 
@@ -105,6 +108,8 @@ class HatakRecipe(Recipe):
         self.add_task(UwsgiStart)
         self.add_task(UwsgiStop)
         self.add_task(UwsgiRestart)
+        self.add_task(Tests)
+        self.add_task(TestsList)
 
     def _filter_task(self, task):
         return task.get_path().startswith(self.prefix)

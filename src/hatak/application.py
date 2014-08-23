@@ -47,7 +47,7 @@ class Application(object):
         self.make_after_config()
         self.make_pyramid_includes()
         self.make_routes(self)
-        self.make_registry()
+        self.make_registry(self.config.registry)
 
         return self.config.make_wsgi_app()
 
@@ -70,8 +70,8 @@ class Application(object):
     @classmethod
     def get_settings_for_tests(cls, module, settings={}):
         additional_modules = [
-            ('tests', True),
             ('local', False),
+            ('tests', True),
             ('local_test', False),
         ]
 
@@ -95,10 +95,10 @@ class Application(object):
             plugin.make_config_include_if_able()
         self.config.commit()
 
-    def make_registry(self):
-        self.config.registry['unpacker'] = self.unpacker
-        self.config.registry['settings'] = self.settings
-        self.config.registry['controller_plugins'] = self.controller_plugins
+    def make_registry(self, registry):
+        registry['unpacker'] = self.unpacker
+        registry['settings'] = self.settings
+        registry['controller_plugins'] = self.controller_plugins
         for plugin in self.plugins:
             plugin.add_to_registry()
 
