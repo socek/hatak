@@ -202,3 +202,20 @@ class TestsList(Tests):
 
     def make(self):
         self.tests('-l')
+
+
+class Coverage(CommandTask):
+    name = 'Generate test coverage report'
+    path = '/tests/coverage'
+
+    def make(self):
+        omits = ','.join(self.settings['coverage omits'])
+        self.coverage('run --branch %(exe:tests)s' % self.paths, True)
+        self.coverage('html --omit=%s' % (omits,), True)
+        if 'browser' in self.kwargs:
+            browser = self.kwargs['browser'][0]
+            self.command(['%s htmlcov/index.html' % (browser)])
+
+    def coverage(self, command='', *args, **kwargs):
+        command = self.paths['exe:coverage'] + ' ' + command
+        return self.command([command], *args, **kwargs)

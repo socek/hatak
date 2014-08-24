@@ -15,6 +15,7 @@ from .tasks import (
     MigrationScript,
     Tests,
     TestsList,
+    Coverage,
 )
 from .templates import (
     MigrationManage,
@@ -59,6 +60,7 @@ class HatakRecipe(Recipe):
         self.set_path('exe:pshell', 'virtualenv:bin', 'pshell')
         self.set_path('exe:uwsgi', 'virtualenv:bin', 'uwsgi')
         self.set_path('exe:tests', 'virtualenv:bin', 'tests')
+        self.set_path('exe:coverage', 'virtualenv:bin', 'coverage')
 
         self.settings['develop'] = True
 
@@ -67,6 +69,13 @@ class HatakRecipe(Recipe):
         self.set_path('project:settings', 'project:application', 'settings')
         self.set_path('project:routes', 'project:application', 'routes.py')
         self.set_path('project:default', 'project:settings', 'default.py')
+
+        self.settings['coverage omits'] = [
+            'eggs/*',
+            '*/venv/*',
+            '*/tests/*',
+            '*/migrations/*',
+        ]
 
     def final_settings(self):
         self.set_path('virtualenv_path', 'cwd', 'venv')
@@ -79,7 +88,9 @@ class HatakRecipe(Recipe):
             'pyramid_debugtoolbar',
             'pyramid_beaker',
             'pyramid_jinja2',
-            'uwsgi']
+            'uwsgi',
+            'toster',
+            'coverage']
         self.settings['directories'].append('project:application')
         self.settings['directories'].append('project:settings')
         self.settings['entry_points'] = (
@@ -110,6 +121,7 @@ class HatakRecipe(Recipe):
         self.add_task(UwsgiRestart)
         self.add_task(Tests)
         self.add_task(TestsList)
+        self.add_task(Coverage)
 
     def _filter_task(self, task):
         return task.get_path().startswith(self.prefix)
