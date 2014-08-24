@@ -33,6 +33,19 @@ class InitPy(TemplateTask):
         return self.paths['project:initpy']
 
 
+class AlembicPy(TemplateTask):
+
+    def __init__(self, *args, **kwargs):
+        kwargs['check_template'] = False
+        super().__init__(*args, **kwargs)
+
+    def get_template_path(self):
+        return path.join('project/alembic.py.tpl')
+
+    def get_output_file(self):
+        return self.paths['project:alembicpy']
+
+
 class Routes(TemplateTask):
 
     def __init__(self, *args, **kwargs):

@@ -23,6 +23,7 @@ from .templates import (
     Routes,
     Settings,
     FrontendIni,
+    AlembicPy,
 )
 
 from .uwsgi import (
@@ -59,16 +60,19 @@ class HatakRecipe(Recipe):
         self.set_path('exe:pserve', 'virtualenv:bin', 'pserve')
         self.set_path('exe:pshell', 'virtualenv:bin', 'pshell')
         self.set_path('exe:uwsgi', 'virtualenv:bin', 'uwsgi')
-        self.set_path('exe:tests', 'virtualenv:bin', 'tests')
+        self.set_path('exe:tests', 'virtualenv:bin', 'hatak_tests')
         self.set_path('exe:coverage', 'virtualenv:bin', 'coverage')
 
         self.settings['develop'] = True
 
         self.set_path('project:application', 'project:home', 'application')
         self.set_path('project:initpy', 'project:application', 'init.py')
+        self.set_path('project:alembicpy', 'project:application', 'alembic.py')
         self.set_path('project:settings', 'project:application', 'settings')
         self.set_path('project:routes', 'project:application', 'routes.py')
         self.set_path('project:default', 'project:settings', 'default.py')
+
+        self.set_path('alembic:ini', 'data', 'alembic.ini')
 
         self.settings['coverage omits'] = [
             'eggs/*',
@@ -82,7 +86,7 @@ class HatakRecipe(Recipe):
         self.set_path('flags', 'data', 'flags')
 
         self.settings['packages'] = [
-            'sqlalchemy-migrate',
+            'alembic',
             'hatak',
             'waitress',
             'pyramid_debugtoolbar',
@@ -95,7 +99,11 @@ class HatakRecipe(Recipe):
         self.settings['directories'].append('project:settings')
         self.settings['entry_points'] = (
             '[paste.app_factory]\n'
-            '\t\tmain = %(package:name)s.application.init:main')
+            '\t\tmain = %(package:name)s.application.init:main\n'
+            '[console_scripts]\n'
+            '\t\thatak_tests = %(package:name)s.application.tests.runner:run',
+            '\t\thatak_alembic = %(package:name)s.application.alembic:run'
+        )
 
     def gather_recipes(self):
         self.add_recipe(ProjectRecipe(False))
@@ -122,6 +130,7 @@ class HatakRecipe(Recipe):
         self.add_task(Tests)
         self.add_task(TestsList)
         self.add_task(Coverage)
+        self.add_task(AlembicPy)
 
     def _filter_task(self, task):
         return task.get_path().startswith(self.prefix)
