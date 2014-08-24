@@ -25,13 +25,16 @@ class Jinja2Helper(object):
             'registry': self.registry,
         }
 
-    def get_template(self):
-        return self.template
-
     def render(self, template):
         env = self.registry['jinja2']
         template = env.get_template(template)
         return Markup(template.render(**self.data))
+
+
+class Jinja2HelperSingle(Jinja2Helper):
+
+    def get_template(self):
+        return self.template
 
     def __call__(self, *args, **kwargs):
         self.make(*args, **kwargs)
@@ -39,3 +42,15 @@ class Jinja2Helper(object):
 
     def make(self):
         pass
+
+
+class Jinja2HelperMany(Jinja2Helper):
+
+    def get_template(self, name, prefix=None):
+        prefix = prefix or self.prefix
+        return '%s/%s.jinja2' % (prefix, name)
+
+    def render_for(self, name, data):
+        self.generate_data()
+        self.data.update(data)
+        return self.render(self.get_template(name))
