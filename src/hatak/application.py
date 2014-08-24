@@ -26,6 +26,7 @@ class Application(object):
         self.unpacker.add('settings', lambda req: req.registry['settings'])
         self.unpacker.add('session', lambda req: req.session)
         self.unpacker.add('registry', lambda req: req.registry)
+        self.unpacker.add('route', lambda req: req.route_path)
 
     def generate_plugins(self):
         self.add_plugin(LoggingPlugin())
