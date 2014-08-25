@@ -5,20 +5,15 @@ from baelfire.recipe import Recipe
 from .tasks import (
     CreateDataDir,
     Serve,
-    MigrationVersioning,
-    Migration,
     BaelfireInitFile,
-    MigrationData,
     ProjectTemplates,
     Develop,
     Shell,
-    MigrationScript,
     Tests,
     TestsList,
     Coverage,
 )
 from .templates import (
-    MigrationManage,
     InitPy,
     Routes,
     Settings,
@@ -30,6 +25,12 @@ from .uwsgi import (
     UwsgiStart,
     UwsgiStop,
     UwsgiRestart,
+)
+
+from .alembic import (
+    AlembicData,
+    AlembicMigration,
+    AlembicRevision,
 )
 
 
@@ -56,12 +57,15 @@ class HatakRecipe(Recipe):
         self.set_path('migration:manage', 'migration:main', 'manage2.py')
         self.set_path('migration:versions', 'migration:main', 'versions')
 
-        self.set_path('exe:migrate', 'virtualenv:bin', 'migrate')
         self.set_path('exe:pserve', 'virtualenv:bin', 'pserve')
         self.set_path('exe:pshell', 'virtualenv:bin', 'pshell')
         self.set_path('exe:uwsgi', 'virtualenv:bin', 'uwsgi')
         self.set_path('exe:tests', 'virtualenv:bin', 'hatak_tests')
         self.set_path('exe:coverage', 'virtualenv:bin', 'coverage')
+        self.set_path(
+            'exe:alembic',
+            'virtualenv:bin',
+            'hatak_alembic')
 
         self.settings['develop'] = True
 
@@ -73,6 +77,8 @@ class HatakRecipe(Recipe):
         self.set_path('project:default', 'project:settings', 'default.py')
 
         self.set_path('alembic:ini', 'data', 'alembic.ini')
+        self.set_path('alembic:main', 'cwd', 'alembic')
+        self.set_path('alembic:versions', 'alembic:main', 'versions')
 
         self.settings['coverage omits'] = [
             'eggs/*',
@@ -98,11 +104,13 @@ class HatakRecipe(Recipe):
         self.settings['directories'].append('project:application')
         self.settings['directories'].append('project:settings')
         self.settings['entry_points'] = (
-            '[paste.app_factory]\n'
+            '\r\t[paste.app_factory]\n'
             '\t\tmain = %(package:name)s.application.init:main\n'
-            '[console_scripts]\n'
-            '\t\thatak_tests = %(package:name)s.application.tests.runner:run',
-            '\t\thatak_alembic = %(package:name)s.application.alembic:run'
+            '\t[console_scripts]\n'
+            '\t\thatak_alembic_tests = %(package:name)s.application.tests'
+            '.runner:run\n'
+            '\t\thatak_alembic_alembic = %(package:name)s.application'
+            '.alembic:run'
         )
 
     def gather_recipes(self):
@@ -112,18 +120,13 @@ class HatakRecipe(Recipe):
         self.add_task(CreateDataDir)
         self.add_task(FrontendIni)
         self.add_task(Serve)
-        self.add_task(MigrationVersioning)
-        self.add_task(Migration)
         self.add_task(BaelfireInitFile)
-        self.add_task(MigrationData)
-        self.add_task(MigrationManage)
         self.add_task(InitPy)
         self.add_task(Routes)
         self.add_task(ProjectTemplates)
         self.add_task(Settings)
         self.add_task(Develop)
         self.add_task(Shell)
-        self.add_task(MigrationScript)
         self.add_task(UwsgiStart)
         self.add_task(UwsgiStop)
         self.add_task(UwsgiRestart)
@@ -131,6 +134,9 @@ class HatakRecipe(Recipe):
         self.add_task(TestsList)
         self.add_task(Coverage)
         self.add_task(AlembicPy)
+        self.add_task(AlembicData)
+        self.add_task(AlembicMigration)
+        self.add_task(AlembicRevision)
 
     def _filter_task(self, task):
         return task.get_path().startswith(self.prefix)
