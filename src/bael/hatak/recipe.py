@@ -85,6 +85,8 @@ class HatakRecipe(Recipe):
             '*/venv/*',
             '*/tests/*',
             '*/migrations/*',
+            '*/routes.py',
+            '*/settings/*',
         ]
 
     def final_settings(self):
@@ -107,10 +109,9 @@ class HatakRecipe(Recipe):
             '\r\t[paste.app_factory]\n'
             '\t\tmain = %(package:name)s.application.init:main\n'
             '\t[console_scripts]\n'
-            '\t\thatak_alembic_tests = %(package:name)s.application.tests'
-            '.runner:run\n'
-            '\t\thatak_alembic_alembic = %(package:name)s.application'
-            '.alembic:run'
+            '\t\thatak_tests = %(package:name)s.application.tests.runner:run\n'
+            '\t\thatak_alembic = %(package:name)s.application.alembic:run'
+            ''
         )
 
     def gather_recipes(self):

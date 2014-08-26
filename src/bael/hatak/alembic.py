@@ -19,6 +19,9 @@ class AlembicData(AlembicBase):
     name = 'Creating alembic directory'
     path = '/alembic/data'
 
+    def generate_links(self):
+        self.add_link('bael.hatak.tasks:ProjectTemplates')
+
     def get_output_file(self):
         return self.paths['alembic:main']
 

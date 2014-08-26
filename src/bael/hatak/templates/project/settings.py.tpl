@@ -1,5 +1,6 @@
 def make_settings(settings, paths):
     settings['jinja2.directories'] = '{{settings["package:name"]}}:templates'
+    settings['debug'] = False
     settings['authentication_debug'] = False
     settings['session.type'] = 'file'
     settings['session.key'] = 'needtochangethis'
@@ -27,3 +28,5 @@ def make_settings(settings, paths):
     paths['sqlite_db'] = ["%(data)s", 'database.db']
     settings['db:url'] = 'sqlite:///%(sqlite_db)s' % paths
 
+    paths['alembic:versions'] = 'alembic'
+    paths['alembic:ini'] = ['%(data)s', 'alembic.ini']
