@@ -105,6 +105,7 @@ class ProjectTemplates(Task):
         self.add_link('bael.hatak.templates:TestFixtures')
         self.add_link('bael.hatak.templates:TestCases')
         self.add_link('bael.hatak.templates:TestSettings')
+        self.add_link('bael.hatak.templates:RedmeFile')
 
 
 class Tests(CommandTask):

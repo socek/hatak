@@ -24,6 +24,7 @@ from .templates import (
     TestFixtures,
     TestCases,
     TestSettings,
+    RedmeFile,
 )
 
 from .uwsgi import (
@@ -78,6 +79,7 @@ class HatakRecipe(Recipe):
         self.set_path('project:initpy', 'project:application', 'init.py')
         self.set_path('project:alembicpy', 'project:application', 'alembic.py')
         self.set_path('project:settings', 'project:application', 'settings')
+        self.set_path('readmefile', 'cwd', 'README.txt')
         self.set_path('application:tests', 'project:application', 'tests')
         self.set_path('application:runner', 'application:tests', 'runner.py')
         self.set_path(
@@ -156,6 +158,7 @@ class HatakRecipe(Recipe):
         self.add_task(TestFixtures)
         self.add_task(TestCases)
         self.add_task(TestSettings)
+        self.add_task(RedmeFile)
 
     def _filter_task(self, task):
         return task.get_path().startswith(self.prefix)

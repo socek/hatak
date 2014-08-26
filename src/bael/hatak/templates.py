@@ -105,3 +105,13 @@ class TestSettings(GeneratedOnceTemplateTask):
 
     def get_output_file(self):
         return self.paths['project:testsettings']
+
+
+class RedmeFile(GeneratedOnceTemplateTask):
+    path = '/templates/readmefile'
+
+    def get_template_path(self):
+        return path.join('project/readme.txt.tpl')
+
+    def get_output_file(self):
+        return self.paths['readmefile']
