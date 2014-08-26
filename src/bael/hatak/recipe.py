@@ -13,12 +13,17 @@ from .tasks import (
     TestsList,
     Coverage,
 )
+
 from .templates import (
     InitPy,
     Routes,
     Settings,
     FrontendIni,
     AlembicPy,
+    TestRunner,
+    TestFixtures,
+    TestCases,
+    TestSettings,
 )
 
 from .uwsgi import (
@@ -73,8 +78,16 @@ class HatakRecipe(Recipe):
         self.set_path('project:initpy', 'project:application', 'init.py')
         self.set_path('project:alembicpy', 'project:application', 'alembic.py')
         self.set_path('project:settings', 'project:application', 'settings')
+        self.set_path('application:tests', 'project:application', 'tests')
+        self.set_path('application:runner', 'application:tests', 'runner.py')
+        self.set_path(
+            'application:fixtures', 'application:tests', 'fixtures.py')
+        self.set_path(
+            'application:cases', 'application:tests', 'cases.py')
+
         self.set_path('project:routes', 'project:application', 'routes.py')
         self.set_path('project:default', 'project:settings', 'default.py')
+        self.set_path('project:testsettings', 'project:settings', 'tests.py')
 
         self.set_path('alembic:ini', 'data', 'alembic.ini')
         self.set_path('alembic:main', 'cwd', 'alembic')
@@ -105,6 +118,7 @@ class HatakRecipe(Recipe):
             'coverage']
         self.settings['directories'].append('project:application')
         self.settings['directories'].append('project:settings')
+        self.settings['directories'].append('application:tests')
         self.settings['entry_points'] = (
             '\r\t[paste.app_factory]\n'
             '\t\tmain = %(package:name)s.application.init:main\n'
@@ -138,6 +152,10 @@ class HatakRecipe(Recipe):
         self.add_task(AlembicData)
         self.add_task(AlembicMigration)
         self.add_task(AlembicRevision)
+        self.add_task(TestRunner)
+        self.add_task(TestFixtures)
+        self.add_task(TestCases)
+        self.add_task(TestSettings)
 
     def _filter_task(self, task):
         return task.get_path().startswith(self.prefix)

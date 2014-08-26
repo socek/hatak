@@ -101,6 +101,10 @@ class ProjectTemplates(Task):
         self.add_link('bael.hatak.templates:AlembicPy')
         self.add_link('bael.hatak.templates:Routes')
         self.add_link('bael.hatak.templates:Settings')
+        self.add_link('bael.hatak.templates:TestRunner')
+        self.add_link('bael.hatak.templates:TestFixtures')
+        self.add_link('bael.hatak.templates:TestCases')
+        self.add_link('bael.hatak.templates:TestSettings')
 
 
 class Tests(CommandTask):

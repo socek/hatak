@@ -3,11 +3,15 @@ from os import path
 from baelfire.template import TemplateTask
 
 
-class InitPy(TemplateTask):
+class GeneratedOnceTemplateTask(TemplateTask):
 
     def __init__(self, *args, **kwargs):
         kwargs['check_template'] = False
         super().__init__(*args, **kwargs)
+
+
+class InitPy(GeneratedOnceTemplateTask):
+    path = '/templates/initpy'
 
     def get_template_path(self):
         return path.join('project/init.py.tpl')
@@ -16,11 +20,8 @@ class InitPy(TemplateTask):
         return self.paths['project:initpy']
 
 
-class AlembicPy(TemplateTask):
-
-    def __init__(self, *args, **kwargs):
-        kwargs['check_template'] = False
-        super().__init__(*args, **kwargs)
+class AlembicPy(GeneratedOnceTemplateTask):
+    path = '/templates/alembicpy'
 
     def get_template_path(self):
         return path.join('project/alembic.py.tpl')
@@ -29,11 +30,8 @@ class AlembicPy(TemplateTask):
         return self.paths['project:alembicpy']
 
 
-class Routes(TemplateTask):
-
-    def __init__(self, *args, **kwargs):
-        kwargs['check_template'] = False
-        super().__init__(*args, **kwargs)
+class Routes(GeneratedOnceTemplateTask):
+    path = '/templates/routes'
 
     def get_template_path(self):
         return path.join('project/routes.py.tpl')
@@ -42,11 +40,8 @@ class Routes(TemplateTask):
         return self.paths['project:routes']
 
 
-class Settings(TemplateTask):
-
-    def __init__(self, *args, **kwargs):
-        kwargs['check_template'] = False
-        super().__init__(*args, **kwargs)
+class Settings(GeneratedOnceTemplateTask):
+    path = '/templates/settings'
 
     def get_template_path(self):
         return path.join('project/settings.py.tpl')
@@ -70,3 +65,43 @@ class FrontendIni(TemplateTask):
 
     def get_template_path(self):
         return 'frontend.ini.tpl'
+
+
+class TestRunner(GeneratedOnceTemplateTask):
+    path = '/templates/testrunner'
+
+    def get_template_path(self):
+        return path.join('project/runner.py.tpl')
+
+    def get_output_file(self):
+        return self.paths['application:runner']
+
+
+class TestFixtures(GeneratedOnceTemplateTask):
+    path = '/templates/testfixtures'
+
+    def get_template_path(self):
+        return path.join('project/fixtures.py.tpl')
+
+    def get_output_file(self):
+        return self.paths['application:fixtures']
+
+
+class TestCases(GeneratedOnceTemplateTask):
+    path = '/templates/testcases'
+
+    def get_template_path(self):
+        return path.join('project/cases.py.tpl')
+
+    def get_output_file(self):
+        return self.paths['application:cases']
+
+
+class TestSettings(GeneratedOnceTemplateTask):
+    path = '/templates/testsettings'
+
+    def get_template_path(self):
+        return path.join('project/testsettings.py.tpl')
+
+    def get_output_file(self):
+        return self.paths['project:testsettings']
