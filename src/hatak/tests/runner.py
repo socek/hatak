@@ -5,6 +5,8 @@ from hatak.tests.database import TestDatabase
 
 class TestRunner(BaseTestRunner):
 
+    SETTINGS_KEY = 'tests_yaml'
+
     def __init__(self, application, fixtures):
         super().__init__()
         self.application = application
@@ -57,4 +59,10 @@ class TestRunner(BaseTestRunner):
     def run(self):
         if self._is_database_needed():
             self.connect_to_db()
+        self.read_from_yaml_if_able()
         super().run()
+
+    def read_from_yaml_if_able(self):
+        settings = self.get_settings()
+        if self.SETTINGS_KEY in settings:
+            self.manager.add_testcases_from_yaml(settings[self.SETTINGS_KEY])

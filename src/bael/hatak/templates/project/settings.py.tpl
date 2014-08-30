@@ -13,6 +13,7 @@ def make_settings(settings, paths):
     paths['data'] = 'data'
     paths['frontend'] = ['%(data)s', 'frontend.ini']
     paths['logging:config'] = '%(frontend)s'
+    paths['tests_yaml'] = ['%(project_path)s', 'tests', 'cases.yml']
     # ----------------------------------------
     # This is example postgresql configuration
     # ----------------------------------------

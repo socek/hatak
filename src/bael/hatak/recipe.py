@@ -85,7 +85,7 @@ class HatakRecipe(Recipe):
         self.set_path(
             'application:fixtures', 'application:tests', 'fixtures.py')
         self.set_path(
-            'application:cases', 'application:tests', 'cases.py')
+            'application:cases', 'application:tests', 'cases.yml')
 
         self.set_path('project:routes', 'project:application', 'routes.py')
         self.set_path('project:default', 'project:settings', 'default.py')
