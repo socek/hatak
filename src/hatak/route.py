@@ -1,5 +1,6 @@
 class Route(object):
     controller_values = [
+        'template',
         'permission',
         'attr',
         'renderer',
@@ -61,5 +62,17 @@ class Route(object):
 
     def set_controller_config(self, kwargs, controller, name):
         value = getattr(controller, name, None)
+        if name == 'template' and value is not None:
+            name, value = self._convert_template(name, value, controller)
         if value:
             kwargs[name] = value
+
+    def _convert_template(self, name, value, controller):
+        templates_dir = getattr(controller, 'templates_dir', 'templates')
+        app, path = value.split(':')
+        value = "%s.%s:%s/%s" % (
+            self.app.module,
+            app,
+            templates_dir,
+            path)
+        return 'renderer', value
