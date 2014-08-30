@@ -5,6 +5,7 @@ from src.hatak import VERSION
 install_requires = [
     'bael.project==0.1.1',
     'pyramid',
+    'pyyaml',
 ]
 
 

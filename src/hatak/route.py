@@ -1,3 +1,6 @@
+from yaml import load
+
+
 class Route(object):
     controller_values = [
         'template',
@@ -35,17 +38,17 @@ class Route(object):
     def config(self):
         return self.app.config
 
-    def add(self, controller_url, route, url, *args, **kwargs):
+    def add(self, controller, route, url, *args, **kwargs):
         self.config.add_route(
             route,
             url,
             *args,
             **kwargs)
 
-        self.add_view(controller_url, route_name=route)
+        self.add_view(controller, route_name=route)
 
-    def add_view(self, controller_url, route=None, **kwargs):
-        url = self.convert_url(controller_url)
+    def add_view(self, controller, route=None, **kwargs):
+        url = self.convert_url(controller)
 
         controller_class = self.config.maybe_dotted(url)
 
@@ -76,3 +79,20 @@ class Route(object):
             templates_dir,
             path)
         return 'renderer', value
+
+    def read_yaml(self, path):
+        with open(path, 'r') as stream:
+            data = load(stream)
+        for name, value in self._inner_dict(data):
+            value['controller'] = '%s.%s' % (
+                name,
+                value['controller'],)
+            self.add(**value)
+
+    def _inner_dict(self, data, prefix=''):
+        for name, value in data.items():
+            if type(value) is dict:
+                yield from self._inner_dict(value, prefix + name + '.')
+            else:
+                for element in value:
+                    yield (prefix + name, element)
