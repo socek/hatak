@@ -41,6 +41,8 @@ class ControllerTestCase(TestCase):
             self.runner.application.controller_plugins)
         self.root_tree = MagicMock()
         self.controller = self.prefix_from(self.root_tree, self.request)
+        self.data = self.controller.data = {}
+        self.matchdict = self.controller.matchdict = {}
 
 
 class SqlTestCase(TestCase):
