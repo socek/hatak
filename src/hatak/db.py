@@ -60,3 +60,6 @@ class Base(AbstractConcreteBase, DeclatativeBase):
     def assign_request(self, request):
         self.request = request
         unpack(self, request)
+
+    def __repr__(self):
+        return '%s (%d)' % (self.__class__.__name__, self.id)
