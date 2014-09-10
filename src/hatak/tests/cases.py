@@ -19,6 +19,14 @@ class TestCase(BaseTestCase):
         unpack(self, self.request)
 
 
+class ControllerPluginTests(TestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.controller = MagicMock()
+        self.plugin = self.prefix_from(self.controller)
+
+
 class ModelTestCase(TestCase):
 
     def setUp(self):
@@ -64,3 +72,14 @@ class SqlControllerTestCase(ControllerTestCase):
         self.request.db = self.runner.get_db()
         unpack(self, self.request)
         unpack(self.controller, self.request)
+
+
+class SqlFormTestCase(FormTestCase):
+
+    groups = ('sql',)
+
+    def setUp(self):
+        super().setUp()
+        self.request.db = self.runner.get_db()
+        unpack(self, self.request)
+        unpack(self.form, self.request)
