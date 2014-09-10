@@ -72,6 +72,7 @@ class SqlControllerTestCase(ControllerTestCase):
         self.request.db = self.runner.get_db()
         unpack(self, self.request)
         unpack(self.controller, self.request)
+        self.matchdict = self.controller.matchdict = {}
 
 
 class SqlFormTestCase(FormTestCase):
