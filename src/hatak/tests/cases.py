@@ -84,3 +84,12 @@ class SqlFormTestCase(FormTestCase):
         self.request.db = self.runner.get_db()
         unpack(self, self.request)
         unpack(self.form, self.request)
+
+
+class PluginTestCase(TestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.plugin = self.prefix_from()
+        self.app = self.plugin.app = MagicMock()
+        self.config = self.app.config
