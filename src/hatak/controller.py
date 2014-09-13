@@ -2,6 +2,10 @@ from pyramid.httpexceptions import HTTPFound
 from .unpackrequest import unpack
 
 
+class EndController(Exception):
+    pass
+
+
 class Controller(object):
 
     def __init__(self, root_factory, request):
@@ -13,16 +17,19 @@ class Controller(object):
         self.initialize_plugins()
 
     def __call__(self):
-        self.before_filter()
-        self.data = self.generate_default_data()
-        data = self.make() or {}
-        self.data.update(data)
-        self.after_filter()
-        if self.response is None:
-            self.make_helpers()
-            self.make_plugin_helpers()
-            return self.data
-        else:
+        try:
+            self.before_filter()
+            self.data = self.generate_default_data()
+            data = self.make() or {}
+            self.data.update(data)
+            self.after_filter()
+            if self.response is None:
+                self.make_helpers()
+                self.make_plugin_helpers()
+                return self.data
+            else:
+                return self.response
+        except EndController:
             return self.response
 
     def generate_default_data(self):
