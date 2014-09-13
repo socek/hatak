@@ -23,6 +23,7 @@ class Jinja2Helper(object):
         self.data = {
             'request': self.request,
             'registry': self.registry,
+            'widget': self,
         }
 
     def render(self, template):
