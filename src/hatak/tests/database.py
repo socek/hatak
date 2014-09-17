@@ -19,9 +19,10 @@ class TestDatabase(object):
 
         connection = engine.connect()
         connection.execute("commit")
-        connection.execute("drop database if exists konwentor_test")
+        connection.execute(
+            "drop database if exists %(db:db)s" % (self.settings))
         connection.execute("commit")
-        connection.execute("create database konwentor_test")
+        connection.execute("create database %(db:db)s" % (self.settings))
         connection.close()
 
     def recreate_sqlite_database(self):
