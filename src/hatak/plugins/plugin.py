@@ -38,3 +38,13 @@ class Plugin(object):
 
     def add_controller_plugins(self, plugins):
         pass
+
+
+def reify(method):
+    """Decorator for making reify methods with request instance for request."""
+
+    def requester(self, request):
+        def on_request(*args, **kwargs):
+            return method(self, request, *args, **kwargs)
+        return on_request
+    return requester

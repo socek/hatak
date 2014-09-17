@@ -35,15 +35,14 @@ class Controller(object):
     def generate_default_data(self):
         data = {
             'request': self.request,
-            'static': self._get_static_path,
             'route': self.request.route_path,
+            '_css_links': self.registry['css_links'],
+            '_js_links': self.registry['js_links'],
+            '_js_codes': self.registry['js_codes'],
         }
         for plugin in self.plugins:
             plugin.generate_default_data(data)
         return data
-
-    def _get_static_path(self, url):
-        return self.request.static_path(self.settings['static'] + url)
 
     def make(self):
         pass
