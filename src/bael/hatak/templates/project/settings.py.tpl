@@ -1,4 +1,5 @@
 def make_settings(settings, paths):
+    settings['debug'] = False
     settings['jinja2.directories'] = '{{settings["package:name"]}}:templates'
     settings['debug'] = False
     settings['authentication_debug'] = False

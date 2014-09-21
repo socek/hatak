@@ -40,6 +40,13 @@ class FormTestCase(TestCase):
         super().setUp()
         self.form = self.prefix_from(self.request)
 
+    def _create_fake_post(self, data):
+        defaults = {
+            self.form.form_name_value: [self.form.name, ]
+        }
+        defaults.update(data)
+        self.POST.dict_of_lists.return_value = defaults
+
 
 class ControllerTestCase(TestCase):
 
