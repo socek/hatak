@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 from setuptools import setup, find_packages
-from src.hatak import VERSION
 
 install_requires = [
     'bael.project==0.1.1',
@@ -13,7 +12,7 @@ install_requires = [
 if __name__ == '__main__':
     setup(
         name='hatak',
-        version=VERSION,
+        version='0.1.3',
         description='Small Pyramid extension/project managment',
         license='Apache License 2.0',
         packages=find_packages('src'),
