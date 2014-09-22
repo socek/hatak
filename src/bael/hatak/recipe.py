@@ -66,12 +66,12 @@ class HatakRecipe(Recipe):
         self.set_path('exe:pserve', 'virtualenv:bin', 'pserve')
         self.set_path('exe:pshell', 'virtualenv:bin', 'pshell')
         self.set_path('exe:uwsgi', 'virtualenv:bin', 'uwsgi')
-        self.set_path('exe:tests', 'virtualenv:bin', 'hatak_tests')
+        self.set_path('exe:tests', 'virtualenv:bin', '%(package:name)s_tests')
         self.set_path('exe:coverage', 'virtualenv:bin', 'coverage')
         self.set_path(
             'exe:alembic',
             'virtualenv:bin',
-            'hatak_alembic')
+            '%(package:name)s_alembic')
 
         self.settings['develop'] = True
 
@@ -125,8 +125,10 @@ class HatakRecipe(Recipe):
             '\r\t[paste.app_factory]\n'
             '\t\tmain = %(package:name)s.application.init:main\n'
             '\t[console_scripts]\n'
-            '\t\thatak_tests = %(package:name)s.application.tests.runner:run\n'
-            '\t\thatak_alembic = %(package:name)s.application.alembic:run'
+            '\t\t%(package:name)s_tests = '
+            '%(package:name)s.application.tests.runner:run\n'
+            '\t\t%(package:name)s_alembic = '
+            '%(package:name)s.application.alembic:run'
             ''
         )
 
