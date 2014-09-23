@@ -49,7 +49,7 @@ class Jinja2HelperMany(Jinja2Helper):
 
     def get_template(self, name, prefix=None):
         prefix = prefix or self.prefix
-        return '%s/%s.jinja2' % (prefix, name)
+        return '%s/%s' % (prefix, name)
 
     def render_for(self, name, data):
         self.generate_data()
