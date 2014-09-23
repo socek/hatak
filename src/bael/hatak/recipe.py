@@ -67,6 +67,8 @@ class HatakRecipe(Recipe):
         self.set_path('exe:pshell', 'virtualenv:bin', 'pshell')
         self.set_path('exe:uwsgi', 'virtualenv:bin', 'uwsgi')
         self.set_path('exe:tests', 'virtualenv:bin', '%(package:name)s_tests')
+        self.set_path(
+            'exe:manage', 'virtualenv:bin', '%(package:name)s_manage')
         self.set_path('exe:coverage', 'virtualenv:bin', 'coverage')
         self.set_path(
             'exe:alembic',

@@ -11,7 +11,7 @@ from baelfire.dependencies import (
 class AlembicBase(VirtualenvTask):
 
     def alembic(self, command, *args, **kwargs):
-        command = self.paths['exe:alembic'] + ' ' + command
+        command = self.paths['exe:manage'] + ' alembic ' + command
         return self.python(command, *args, **kwargs)
 
 

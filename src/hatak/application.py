@@ -4,6 +4,7 @@ from smallsettings import Factory
 from .plugins import Jinja2Plugin, SqlPlugin, BeakerPlugin, DebugtoolbarPlugin
 from .plugins import LoggingPlugin
 from .unpackrequest import UnpackRequest
+from .command import CommandsApplication
 
 
 class Application(object):
@@ -17,6 +18,7 @@ class Application(object):
         self.plugins = []
         self.controller_plugins = []
         self.generate_plugins()
+        self.commands = None
 
     def initialize_unpacker(self):
         self.unpacker = UnpackRequest()
@@ -51,6 +53,11 @@ class Application(object):
         self.make_registry(self.config.registry)
 
         return self.config.make_wsgi_app()
+
+    def run_commands(self, settings={}):
+        self.settings = self.generate_settings(settings)
+        self.commands = CommandsApplication(self)
+        self.commands()
 
     def generate_settings(self, settings):
         self._settings, self._paths = self.get_settings(self.module, settings)

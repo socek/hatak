@@ -39,6 +39,9 @@ class Plugin(object):
     def add_controller_plugins(self, plugins):
         pass
 
+    def add_commands(self, parent):
+        pass
+
 
 def reify(method):
     """Decorator for making reify methods with request instance for request."""
