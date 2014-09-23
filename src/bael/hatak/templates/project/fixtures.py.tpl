@@ -1,4 +1,4 @@
-from hatak.tests.fixtures import Fixtures as Base
+from hatak.plugins.toster.fixtures import Fixtures as Base
 
 
 class Fixtures(Base):

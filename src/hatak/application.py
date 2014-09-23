@@ -1,8 +1,6 @@
 from pyramid.config import Configurator
 from smallsettings import Factory
 
-from .plugins import Jinja2Plugin, SqlPlugin, BeakerPlugin, DebugtoolbarPlugin
-from .plugins import LoggingPlugin
 from .unpackrequest import UnpackRequest
 from .command import CommandsApplication
 
@@ -17,7 +15,6 @@ class Application(object):
         self.initialize_unpacker()
         self.plugins = []
         self.controller_plugins = []
-        self.generate_plugins()
         self.commands = None
 
     def initialize_unpacker(self):
@@ -29,13 +26,6 @@ class Application(object):
         self.unpacker.add('session', lambda req: req.session)
         self.unpacker.add('registry', lambda req: req.registry)
         self.unpacker.add('route', lambda req: req.route_path)
-
-    def generate_plugins(self):
-        self.add_plugin(LoggingPlugin())
-        self.add_plugin(Jinja2Plugin())
-        self.add_plugin(SqlPlugin())
-        self.add_plugin(BeakerPlugin())
-        self.add_plugin(DebugtoolbarPlugin())
 
     def add_plugin(self, plugin):
         self.plugins.append(plugin)

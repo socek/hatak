@@ -4,6 +4,10 @@ from .sql import SqlPlugin
 from .beaker import BeakerPlugin
 from .debugtoolbar import DebugtoolbarPlugin
 from .logging import LoggingPlugin
+from .alembic.plugin import AlembicPlugin
+from .statics.plugin import StaticPlugin
+from .toster.plugin import TosterPlugin
+from .haml import HamlPlugin
 
 __all__ = [
     'Plugin',
@@ -13,4 +17,8 @@ __all__ = [
     'BeakerPlugin',
     'DebugtoolbarPlugin',
     'LoggingPlugin',
+    'AlembicPlugin',
+    'StaticPlugin',
+    'TosterPlugin',
+    'HamlPlugin',
 ]
