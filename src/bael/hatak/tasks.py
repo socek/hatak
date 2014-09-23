@@ -121,7 +121,7 @@ class Tests(CommandTask):
             self.tests()
 
     def tests(self, command='', *args, **kwargs):
-        command = self.paths['exe:tests'] + ' ' + command
+        command = self.paths['exe:manage'] + ' tests ' + command
         return self.command([command], *args, **kwargs)
 
 

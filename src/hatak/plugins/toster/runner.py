@@ -1,6 +1,6 @@
 from toster import TestRunner as BaseTestRunner
 
-from hatak.tests.database import TestDatabase
+from .database import TestDatabase
 
 
 class TestRunner(BaseTestRunner):
