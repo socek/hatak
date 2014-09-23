@@ -20,14 +20,14 @@ class InitPy(GeneratedOnceTemplateTask):
         return self.paths['project:initpy']
 
 
-class AlembicPy(GeneratedOnceTemplateTask):
-    path = '/templates/alembicpy'
+class ManagePy(GeneratedOnceTemplateTask):
+    path = '/templates/manage'
 
     def get_template_path(self):
-        return path.join('project/alembic.py.tpl')
+        return path.join('project/manage.py.tpl')
 
     def get_output_file(self):
-        return self.paths['project:alembicpy']
+        return self.paths['project:managepy']
 
 
 class Routes(GeneratedOnceTemplateTask):
@@ -65,16 +65,6 @@ class FrontendIni(TemplateTask):
 
     def get_template_path(self):
         return 'frontend.ini.tpl'
-
-
-class TestRunner(GeneratedOnceTemplateTask):
-    path = '/templates/testrunner'
-
-    def get_template_path(self):
-        return path.join('project/runner.py.tpl')
-
-    def get_output_file(self):
-        return self.paths['application:runner']
 
 
 class TestFixtures(GeneratedOnceTemplateTask):

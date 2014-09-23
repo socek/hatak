@@ -12,7 +12,7 @@ install_requires = [
 if __name__ == '__main__':
     setup(
         name='hatak',
-        version='0.1.3',
+        version='0.2',
         description='Small Pyramid extension/project managment',
         license='Apache License 2.0',
         packages=find_packages('src'),

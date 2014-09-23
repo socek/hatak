@@ -19,12 +19,11 @@ from .templates import (
     Routes,
     Settings,
     FrontendIni,
-    AlembicPy,
-    TestRunner,
     TestFixtures,
     TestCases,
     TestSettings,
     RedmeFile,
+    ManagePy,
 )
 
 from .uwsgi import (
@@ -66,24 +65,18 @@ class HatakRecipe(Recipe):
         self.set_path('exe:pserve', 'virtualenv:bin', 'pserve')
         self.set_path('exe:pshell', 'virtualenv:bin', 'pshell')
         self.set_path('exe:uwsgi', 'virtualenv:bin', 'uwsgi')
-        self.set_path('exe:tests', 'virtualenv:bin', '%(package:name)s_tests')
         self.set_path(
             'exe:manage', 'virtualenv:bin', '%(package:name)s_manage')
         self.set_path('exe:coverage', 'virtualenv:bin', 'coverage')
-        self.set_path(
-            'exe:alembic',
-            'virtualenv:bin',
-            '%(package:name)s_alembic')
 
         self.settings['develop'] = True
 
         self.set_path('project:application', 'project:home', 'application')
         self.set_path('project:initpy', 'project:application', 'init.py')
-        self.set_path('project:alembicpy', 'project:application', 'alembic.py')
+        self.set_path('project:managepy', 'project:application', 'manage.py')
         self.set_path('project:settings', 'project:application', 'settings')
         self.set_path('readmefile', 'cwd', 'README.txt')
         self.set_path('application:tests', 'project:application', 'tests')
-        self.set_path('application:runner', 'application:tests', 'runner.py')
         self.set_path(
             'application:fixtures', 'application:tests', 'fixtures.py')
         self.set_path(
@@ -127,10 +120,8 @@ class HatakRecipe(Recipe):
             '\r\t[paste.app_factory]\n'
             '\t\tmain = %(package:name)s.application.init:main\n'
             '\t[console_scripts]\n'
-            '\t\t%(package:name)s_tests = '
-            '%(package:name)s.application.tests.runner:run\n'
-            '\t\t%(package:name)s_alembic = '
-            '%(package:name)s.application.alembic:run'
+            '\t\t%(package:name)s_manage = '
+            '%(package:name)s.application.manage:run\n'
             ''
         )
 
@@ -154,15 +145,14 @@ class HatakRecipe(Recipe):
         self.add_task(Tests)
         self.add_task(TestsList)
         self.add_task(Coverage)
-        self.add_task(AlembicPy)
         self.add_task(AlembicData)
         self.add_task(AlembicMigration)
         self.add_task(AlembicRevision)
-        self.add_task(TestRunner)
         self.add_task(TestFixtures)
         self.add_task(TestCases)
         self.add_task(TestSettings)
         self.add_task(RedmeFile)
+        self.add_task(ManagePy)
 
     def _filter_task(self, task):
         return task.get_path().startswith(self.prefix)

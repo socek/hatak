@@ -98,10 +98,9 @@ class ProjectTemplates(Task):
 
     def generate_links(self):
         self.add_link('bael.hatak.templates:InitPy')
-        self.add_link('bael.hatak.templates:AlembicPy')
+        self.add_link('bael.hatak.templates:ManagePy')
         self.add_link('bael.hatak.templates:Routes')
         self.add_link('bael.hatak.templates:Settings')
-        self.add_link('bael.hatak.templates:TestRunner')
         self.add_link('bael.hatak.templates:TestFixtures')
         self.add_link('bael.hatak.templates:TestCases')
         self.add_link('bael.hatak.templates:TestSettings')
