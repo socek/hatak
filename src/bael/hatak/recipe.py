@@ -50,6 +50,7 @@ class HatakRecipe(Recipe):
         self.set_path('data:log', 'data', 'all.log')
         self.set_path('uwsgi:socket', None, '/tmp/uwsgi.socket')
         self.set_path('uwsgi:pid', 'data', 'uwsgi.pid')
+        self.set_path('uwsgi:log', 'data', 'uwsgi.log')
         self.set_path(
             'venv:site-packages',
             'virtualenv_path',

@@ -138,7 +138,7 @@ class Coverage(CommandTask):
 
     def make(self):
         omits = ','.join(self.settings['coverage omits'])
-        self.coverage('run --branch %(exe:tests)s' % self.paths, True)
+        self.coverage('run --branch %(exe:manage)s tests' % self.paths, True)
         self.coverage('html --omit=%s' % (omits,), True)
         if 'browser' in self.kwargs:
             browser = self.kwargs['browser'][0]
