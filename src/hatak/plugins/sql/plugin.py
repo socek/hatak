@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from .plugin import Plugin
+from hatak.plugins import Plugin
 
 
 class SqlPlugin(Plugin):

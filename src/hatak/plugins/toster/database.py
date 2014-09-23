@@ -2,7 +2,7 @@ import os
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from hatak.db import Base
+from hatak.plugins.sql import Base
 
 
 class TestDatabase(object):

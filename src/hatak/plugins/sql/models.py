@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.ext.declarative import AbstractConcreteBase
 
-from .unpackrequest import unpack
+from hatak.unpackrequest import unpack
 
 DeclatativeBase = declarative_base()
 
