@@ -3,6 +3,7 @@ from smallsettings import Factory
 
 from .unpackrequest import UnpackRequest
 from .command import CommandsApplication
+from .errors import PluginNotFound
 
 
 class Application(object):
@@ -14,6 +15,7 @@ class Application(object):
         self.module = module
         self.initialize_unpacker()
         self.plugins = []
+        self.plugin_types = []
         self.controller_plugins = []
         self.commands = None
 
@@ -28,10 +30,14 @@ class Application(object):
         self.unpacker.add('route', lambda req: req.route_path)
 
     def add_plugin(self, plugin):
-        self.plugins.append(plugin)
+        if type(plugin) in self.plugin_types:
+            # add plugin only once
+            return
         plugin.init(self)
         plugin.add_unpackers(self.unpacker)
         plugin.add_controller_plugins(self.controller_plugins)
+        self.plugin_types.append(type(plugin))
+        self.plugins.append(plugin)
 
     def __call__(self, settings={}):
         self.settings = self.generate_settings(settings)
@@ -102,3 +108,7 @@ class Application(object):
 
     def add_controller_plugin(self, plugin):
         self.controller_plugins.append(plugin)
+
+    def _validate_dependency_plugin(self, plugin):
+        if not plugin in self.plugin_types:
+            raise PluginNotFound(plugin)

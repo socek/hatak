@@ -14,6 +14,7 @@ class Plugin(object):
 
     def init(self, app):
         self.app = app
+        self.validate_plugin()
 
     def make_config_include_if_able(self):
         try:
@@ -40,6 +41,9 @@ class Plugin(object):
         pass
 
     def add_commands(self, parent):
+        pass
+
+    def validate_plugin(self):
         pass
 
 

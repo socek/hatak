@@ -1,4 +1,5 @@
 from .plugin import Plugin
+from hatak.plugins.jinja2 import Jinja2Plugin
 
 
 class HamlPlugin(Plugin):
@@ -10,3 +11,6 @@ class HamlPlugin(Plugin):
 
     def add_to_registry(self):
         self.config.add_jinja2_renderer('.haml')
+
+    def validate_plugin(self):
+        self.app._validate_dependency_plugin(Jinja2Plugin)

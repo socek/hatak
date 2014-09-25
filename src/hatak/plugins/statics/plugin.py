@@ -1,5 +1,6 @@
 from hatak.plugins.plugin import Plugin, reify
 from hatak.controller import ControllerPlugin
+from hatak.plugins.jinja2 import Jinja2Plugin
 
 from .helper import StaticHelper
 
@@ -45,6 +46,9 @@ class StaticPlugin(Plugin):
 
     def add_controller_plugins(self, plugins):
         plugins.append(StaticControllerPlugin)
+
+    def add_depedency_plugins(self):
+        self.app._validate_dependency_plugin(Jinja2Plugin)
 
 
 class StaticControllerPlugin(ControllerPlugin):
