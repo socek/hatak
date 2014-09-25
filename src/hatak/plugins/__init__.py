@@ -3,7 +3,6 @@ from .jinja2 import Jinja2Plugin
 from .sql import SqlPlugin
 from .beaker import BeakerPlugin
 from .debugtoolbar import DebugtoolbarPlugin
-from .logging import LoggingPlugin
 from .alembic.plugin import AlembicPlugin
 from .statics.plugin import StaticPlugin
 from .toster.plugin import TosterPlugin
@@ -16,7 +15,6 @@ __all__ = [
     'SqlPlugin',
     'BeakerPlugin',
     'DebugtoolbarPlugin',
-    'LoggingPlugin',
     'AlembicPlugin',
     'StaticPlugin',
     'TosterPlugin',

@@ -113,7 +113,8 @@ class HatakRecipe(Recipe):
             'pyramid_jinja2',
             'uwsgi',
             'toster',
-            'coverage']
+            'coverage',
+            'hatak_logging']
         self.settings['directories'].append('project:application')
         self.settings['directories'].append('project:settings')
         self.settings['directories'].append('application:tests')
