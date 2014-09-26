@@ -105,16 +105,18 @@ class HatakRecipe(Recipe):
         self.set_path('flags', 'data', 'flags')
 
         self.settings['packages'] = [
+            'hatak==0.2',
+            'coverage',
+            'hatak_logging',
+            'hatak_jinja2',
+
             'alembic',
-            'hatak',
             'waitress',
             'pyramid_debugtoolbar',
             'pyramid_beaker',
-            'pyramid_jinja2',
             'uwsgi',
             'toster',
-            'coverage',
-            'hatak_logging']
+        ]
         self.settings['directories'].append('project:application')
         self.settings['directories'].append('project:settings')
         self.settings['directories'].append('application:tests')

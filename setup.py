@@ -5,7 +5,6 @@ install_requires = [
     'bael.project==0.1.2',
     'pyramid',
     'pyyaml',
-    'toster==0.1.2',
 ]
 
 
