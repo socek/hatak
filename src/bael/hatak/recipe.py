@@ -109,6 +109,7 @@ class HatakRecipe(Recipe):
             'coverage',
             'hatak_logging',
             'hatak_jinja2',
+            'hatak_haml',
 
             'alembic',
             'waitress',

@@ -1,6 +1,6 @@
 from hatak.plugins.plugin import Plugin, reify
 from hatak.controller import ControllerPlugin
-from hatak.plugins.jinja2 import Jinja2Plugin
+from haplugin.jinja2 import Jinja2Plugin
 
 from .helper import StaticHelper
 

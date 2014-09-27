@@ -1,9 +1,10 @@
 from hatak.application import Application
 from hatak.plugins import DebugtoolbarPlugin, TosterPlugin
-from hatak.plugins import StaticPlugin, BeakerPlugin, HamlPlugin, AlembicPlugin
+from hatak.plugins import StaticPlugin, BeakerPlugin, AlembicPlugin
 from hatak.plugins import SqlPlugin
-from hatak.logging import LoggingPlugin
-from hatak.jinja2 import Jinja2Plugin
+from haplugin.logging import LoggingPlugin
+from haplugin.jinja2 import Jinja2Plugin
+from haplugin.haml import HamlPlugin
 
 
 from {{settings["package:name"]}}.application.tests.fixtures import Fixtures
