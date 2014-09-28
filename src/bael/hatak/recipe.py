@@ -110,8 +110,9 @@ class HatakRecipe(Recipe):
             'hatak_logging',
             'hatak_jinja2',
             'hatak_haml',
+            'hatak_sql',
+            'hatak_alembic',
 
-            'alembic',
             'waitress',
             'pyramid_debugtoolbar',
             'pyramid_beaker',

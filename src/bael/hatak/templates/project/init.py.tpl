@@ -1,10 +1,11 @@
 from hatak.application import Application
 from hatak.plugins import DebugtoolbarPlugin, TosterPlugin
-from hatak.plugins import StaticPlugin, BeakerPlugin, AlembicPlugin
-from hatak.plugins import SqlPlugin
+from hatak.plugins import StaticPlugin, BeakerPlugin
 from haplugin.logging import LoggingPlugin
 from haplugin.jinja2 import Jinja2Plugin
 from haplugin.haml import HamlPlugin
+from haplugin.sql import SqlPlugin
+from haplugin.alembic import AlembicPlugin
 
 
 from {{settings["package:name"]}}.application.tests.fixtures import Fixtures
