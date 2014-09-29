@@ -1,4 +1,4 @@
-from hatak.plugins.plugin import Plugin, reify
+from hatak.plugin import Plugin, reify
 from hatak.controller import ControllerPlugin
 from haplugin.jinja2 import Jinja2Plugin
 

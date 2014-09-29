@@ -113,9 +113,9 @@ class HatakRecipe(Recipe):
             'hatak_sql',
             'hatak_alembic',
             'hatak_beaker',
+            'hatak_debugtoolbar',
 
             'waitress',
-            'pyramid_debugtoolbar',
             'uwsgi',
             'toster',
         ]

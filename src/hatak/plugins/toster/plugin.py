@@ -1,4 +1,4 @@
-from hatak.plugins import Plugin
+from hatak.plugin import Plugin
 from .commands import TosterCommand
 
 
