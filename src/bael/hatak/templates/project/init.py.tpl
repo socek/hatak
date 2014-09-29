@@ -1,12 +1,12 @@
 from hatak.application import Application
 from hatak.plugins import DebugtoolbarPlugin, TosterPlugin
-from hatak.plugins import StaticPlugin, BeakerPlugin
+from hatak.plugins import StaticPlugin
 from haplugin.logging import LoggingPlugin
 from haplugin.jinja2 import Jinja2Plugin
 from haplugin.haml import HamlPlugin
 from haplugin.sql import SqlPlugin
 from haplugin.alembic import AlembicPlugin
-
+from haplugin.beaker import BeakerPlugin
 
 from {{settings["package:name"]}}.application.tests.fixtures import Fixtures
 from .routes import make_routes
