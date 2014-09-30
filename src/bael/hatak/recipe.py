@@ -114,10 +114,10 @@ class HatakRecipe(Recipe):
             'hatak_alembic',
             'hatak_beaker',
             'hatak_debugtoolbar',
+            'hatak_toster',
 
             'waitress',
             'uwsgi',
-            'toster',
         ]
         self.settings['directories'].append('project:application')
         self.settings['directories'].append('project:settings')
