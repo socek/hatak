@@ -24,8 +24,6 @@ if __name__ == '__main__':
                 'hatak/templates/*.ini',
                 'hatak/templates/*.tpl',
                 'hatak/templates/project/*.tpl'],
-            'hatak': [
-                'plugins/statics/templates/*.jinja2'],
         },
         entry_points="""\
           [console_scripts]
