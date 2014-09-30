@@ -8,17 +8,10 @@ class UnpackRequest(object):
 
     def __call__(self, obj, request):
         for key, unpacker in self.unpackers.items():
-            try:
-                value = unpacker(request)
-                setattr(obj, key, value)
-            except DontUnpackThis:
-                pass
+            value = unpacker(request)
+            setattr(obj, key, value)
 
 
 def unpack(obj, request):
     obj.request = request
     request.registry['unpacker'](obj, request)
-
-
-class DontUnpackThis(Exception):
-    pass

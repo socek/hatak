@@ -1,6 +1,3 @@
-from .unpackrequest import unpack, DontUnpackThis
-
-
 class Plugin(object):
 
     @property
