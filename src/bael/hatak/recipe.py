@@ -115,6 +115,7 @@ class HatakRecipe(Recipe):
             'hatak_beaker',
             'hatak_debugtoolbar',
             'hatak_toster',
+            'hatak_statics',
 
             'waitress',
             'uwsgi',
