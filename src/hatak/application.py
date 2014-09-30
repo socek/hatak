@@ -25,7 +25,6 @@ class Application(object):
         self.unpacker.add('GET', lambda req: req.GET)
         self.unpacker.add('matchdict', lambda req: req.matchdict)
         self.unpacker.add('settings', lambda req: req.registry['settings'])
-        self.unpacker.add('session', lambda req: req.session) # This should be in baeker plugin
         self.unpacker.add('registry', lambda req: req.registry)
         self.unpacker.add('route', lambda req: req.route_path)
 
