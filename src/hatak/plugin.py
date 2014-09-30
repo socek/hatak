@@ -1,3 +1,6 @@
+from .unpackrequest import unpack, DontUnpackThis
+
+
 class Plugin(object):
 
     @property
@@ -45,6 +48,36 @@ class Plugin(object):
 
     def validate_plugin(self):
         pass
+
+    def add_request_plugins(self):
+        pass
+
+    def add_request_plugin(self, plugin):
+        plugin = plugin()
+        self.config.add_request_method(
+            plugin.init,
+            plugin.name,
+            reify=True)
+
+
+class RequestPlugin(object):
+
+    def __init__(self, name):
+        self.name = name
+        self._block = False
+
+    def init(self, request):
+        self.request = request
+        self.POST = request.POST
+        self.GET = request.GET
+        self.matchdict = request.matchdict
+        self.settings = request.registry['settings']
+        self.registry = request.registry
+        self.route = request.route_path
+        return self.return_once()
+
+    def return_once(self):
+        return self
 
 
 def reify(method):

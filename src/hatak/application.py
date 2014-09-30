@@ -25,13 +25,14 @@ class Application(object):
         self.unpacker.add('GET', lambda req: req.GET)
         self.unpacker.add('matchdict', lambda req: req.matchdict)
         self.unpacker.add('settings', lambda req: req.registry['settings'])
-        self.unpacker.add('session', lambda req: req.session)
+        self.unpacker.add('session', lambda req: req.session) # This should be in baeker plugin
         self.unpacker.add('registry', lambda req: req.registry)
         self.unpacker.add('route', lambda req: req.route_path)
 
     def add_plugin(self, plugin):
         if type(plugin) in self.plugin_types:
             # add plugin only once
+            # TODO: this should raise an error
             return
         plugin.init(self)
         plugin.add_unpackers(self.unpacker)
@@ -91,6 +92,8 @@ class Application(object):
             plugin.before_config()
 
     def make_after_config(self):
+        for plugin in self.plugins:
+            plugin.add_request_plugins()
         for plugin in self.plugins:
             plugin.after_config()
 
