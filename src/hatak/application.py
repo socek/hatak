@@ -34,8 +34,8 @@ class Application(object):
             # TODO: this should raise an error
             return
         plugin.init(self)
-        plugin.add_unpackers(self.unpacker)
-        plugin.add_controller_plugins(self.controller_plugins)
+        plugin.add_unpackers()
+        plugin.add_controller_plugins()
         self.plugin_types.append(type(plugin))
         self.plugins.append(plugin)
 

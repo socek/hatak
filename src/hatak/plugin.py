@@ -12,6 +12,14 @@ class Plugin(object):
     def settings(self):
         return self.app.settings
 
+    @property
+    def unpacker(self):
+        return self.app.unpacker
+
+    @property
+    def controller(self):
+        return self.app.controller_plugins
+
     def init(self, app):
         self.app = app
         self.validate_plugin()
@@ -34,11 +42,16 @@ class Plugin(object):
     def after_config(self):
         pass
 
-    def add_unpackers(self, unpacker):
+    def add_unpackers(self):
         pass
 
-    def add_controller_plugins(self, plugins):
+    def add_controller_plugins(self):
         pass
+
+    def add_controller_plugin(self, plugin):
+        def append_parent_wrapper(controller):
+            return plugin(self, controller)
+        self.controller.append(append_parent_wrapper)
 
     def add_commands(self, parent):
         pass
@@ -51,6 +64,7 @@ class Plugin(object):
 
     def add_request_plugin(self, plugin):
         plugin = plugin()
+        plugin.set_parent(self)
         self.config.add_request_method(
             plugin.init,
             plugin.name,
@@ -62,6 +76,9 @@ class RequestPlugin(object):
     def __init__(self, name):
         self.name = name
         self._block = False
+
+    def set_parent(self, parent):
+        self.parent = parent
 
     def init(self, request):
         self.request = request

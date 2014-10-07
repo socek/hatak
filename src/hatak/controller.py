@@ -36,9 +36,6 @@ class Controller(object):
         data = {
             'request': self.request,
             'route': self.request.route_path,
-            '_css_links': self.registry['css_links'],
-            '_js_links': self.registry['js_links'],
-            '_js_codes': self.registry['js_codes'],
         }
         for plugin in self.plugins:
             plugin.generate_default_data(data)
@@ -77,7 +74,8 @@ class Controller(object):
 
 class ControllerPlugin(object):
 
-    def __init__(self, controller):
+    def __init__(self, parent, controller):
+        self.parent = parent
         self.controller = controller
         self.request = self.controller.request
         unpack(self, self.request)
