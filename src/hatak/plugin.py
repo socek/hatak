@@ -20,6 +20,10 @@ class Plugin(object):
     def controller(self):
         return self.app.controller_plugins
 
+    @property
+    def route(self):
+        return self.app.route
+
     def init(self, app):
         self.app = app
         self.validate_plugin()
@@ -69,6 +73,9 @@ class Plugin(object):
             plugin.init,
             plugin.name,
             reify=True)
+
+    def append_routes(self):
+        pass
 
 
 class RequestPlugin(object):

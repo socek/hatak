@@ -28,9 +28,9 @@ class Route(object):
         'predicates',
     ]
 
-    def __init__(self, app, prefix=None):
+    def __init__(self, app):
         self.app = app
-        self.prefix = prefix
+        self.prefix = None
         self.app.config.registry['route'] = self
         self.routes = {}
 
@@ -73,8 +73,8 @@ class Route(object):
     def _convert_template(self, name, value, controller):
         templates_dir = getattr(controller, 'templates_dir', 'templates')
         app, path = value.split(':')
-        value = "%s.%s:%s/%s" % (
-            self.app.module,
+        value = "%s%s:%s/%s" % (
+            self.prefix,
             app,
             templates_dir,
             path)

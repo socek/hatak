@@ -4,11 +4,14 @@ from smallsettings import Factory
 from .unpackrequest import UnpackRequest
 from .command import CommandsApplication
 from .errors import PluginNotFound
+from .route import Route
 
 
 class Application(object):
 
     """Prepering and configuring project."""
+
+    route_class = Route
 
     def __init__(self, module, make_routes):
         self.make_routes = make_routes
@@ -45,10 +48,16 @@ class Application(object):
         self.create_config()
         self.make_after_config()
         self.make_pyramid_includes()
-        self.make_routes(self)
+        self.init_routes()
         self.make_registry(self.config.registry)
 
         return self.config.make_wsgi_app()
+
+    def init_routes(self):
+        self.route = Route(self)
+        self.make_routes(self, self.route)
+        for plugin in self.plugins:
+            plugin.append_routes()
 
     def run_commands(self, settings={}):
         self.settings = self.generate_settings(settings)
