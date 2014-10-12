@@ -13,6 +13,10 @@ class Plugin(object):
         return self.app.settings
 
     @property
+    def paths(self):
+        return self.app.paths
+
+    @property
     def unpacker(self):
         return self.app.unpacker
 
@@ -33,6 +37,9 @@ class Plugin(object):
             self.config.include(self.get_include_name())
         except NotImplementedError:
             pass
+
+    def append_settings(self):
+        pass
 
     def get_include_name(self):
         raise NotImplementedError()
@@ -93,6 +100,7 @@ class RequestPlugin(object):
         self.GET = request.GET
         self.matchdict = request.matchdict
         self.settings = request.registry['settings']
+        self.paths = request.registry['paths']
         self.registry = request.registry
         self.route = request.route_path
         return self.return_once()

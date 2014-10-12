@@ -5,13 +5,14 @@ install_requires = [
     'bael.project==0.1.2',
     'pyramid',
     'pyyaml',
+    'morfdict>=0.3.3',
 ]
 
 
 if __name__ == '__main__':
     setup(
         name='hatak',
-        version='0.2.2',
+        version='0.2.3',
         description='Small Pyramid extension/project managment',
         license='Apache License 2.0',
         packages=find_packages('src'),

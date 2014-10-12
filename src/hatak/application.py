@@ -1,5 +1,5 @@
 from pyramid.config import Configurator
-from smallsettings import Factory
+from morfdict import Factory
 
 from .unpackrequest import UnpackRequest
 from .command import CommandsApplication
@@ -28,6 +28,7 @@ class Application(object):
         self.unpacker.add('GET', lambda req: req.GET)
         self.unpacker.add('matchdict', lambda req: req.matchdict)
         self.unpacker.add('settings', lambda req: req.registry['settings'])
+        self.unpacker.add('paths', lambda req: req.registry['paths'])
         self.unpacker.add('registry', lambda req: req.registry)
         self.unpacker.add('route', lambda req: req.route_path)
 
@@ -43,7 +44,8 @@ class Application(object):
         self.plugins.append(plugin)
 
     def __call__(self, settings={}):
-        self.settings = self.generate_settings(settings)
+        self.generate_settings(settings)
+        self.append_plugin_settings()
         self.make_before_config()
         self.create_config()
         self.make_after_config()
@@ -60,40 +62,35 @@ class Application(object):
             plugin.append_routes()
 
     def run_commands(self, settings={}):
-        self.settings = self.generate_settings(settings)
+        self.generate_settings(settings)
+        self.append_plugin_settings()
         self.commands = CommandsApplication(self)
         self.commands()
 
     def generate_settings(self, settings):
-        self._settings, self._paths = self.get_settings(self.module, settings)
-        merged = self._settings.merged(self._paths)
-        return merged.to_dict()
+        self.settings, self.paths = self.get_settings(self.module, settings)
+        self.settings['paths'] = self.paths
+        return self.settings
 
-    @classmethod
-    def get_settings(cls, module, settings={}, additional_modules=None):
+    def get_settings(self, module, settings={}, additional_modules=None):
         additional_modules = additional_modules or [
             ('local', False),
         ]
-        factory = Factory('%s.application' % (module))
-        settings, paths = factory.make_settings(
+        self.factory = Factory('%s.application' % (module))
+        settings, paths = self.factory.make_settings(
             settings=settings,
             additional_modules=additional_modules,)
+        settings['paths'] = paths
         return settings, paths
-
-    @classmethod
-    def get_settings_for_tests(cls, module, settings={}):
-        additional_modules = [
-            ('local', False),
-            ('tests', True),
-            ('local_test', False),
-        ]
-
-        return cls.get_settings(module, settings, additional_modules)
 
     def create_config(self):
         self.config = Configurator(
-            settings=self.settings,
+            settings=self.settings.to_dict(),
         )
+
+    def append_plugin_settings(self):
+        for plugin in self.plugins:
+            plugin.append_settings()
 
     def make_before_config(self):
         for plugin in self.plugins:
@@ -113,6 +110,7 @@ class Application(object):
     def make_registry(self, registry):
         registry['unpacker'] = self.unpacker
         registry['settings'] = self.settings
+        registry['paths'] = self.paths
         registry['controller_plugins'] = self.controller_plugins
         for plugin in self.plugins:
             plugin.add_to_registry()
