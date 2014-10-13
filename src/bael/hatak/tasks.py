@@ -14,7 +14,7 @@ class CreateDataDir(Task):
     path = '/data'
 
     directorie_names = [
-        'data',
+        'datadir',
     ]
 
     @property

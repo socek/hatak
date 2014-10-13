@@ -2,10 +2,9 @@
 from setuptools import setup, find_packages
 
 install_requires = [
-    'bael.project==0.1.2',
+    'bael.project>=0.1.3',
     'pyramid',
     'pyyaml',
-    'morfdict>=0.3.3',
 ]
 
 

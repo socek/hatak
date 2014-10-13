@@ -45,19 +45,19 @@ class HatakRecipe(Recipe):
 
     def create_settings(self):
         self.set_path('project:src', 'cwd', 'src')
-        self.set_path('data', 'cwd', 'data')
-        self.set_path('data:frontend.ini', 'data', 'frontend.ini')
-        self.set_path('data:log', 'data', 'all.log')
+        self.set_path('datadir', 'cwd', 'data')
+        self.set_path('data:frontend.ini', 'datadir', 'frontend.ini')
+        self.set_path('data:log', 'datadir', 'all.log')
         self.set_path('uwsgi:socket', None, '/tmp/uwsgi.socket')
-        self.set_path('uwsgi:pid', 'data', 'uwsgi.pid')
-        self.set_path('uwsgi:log', 'data', 'uwsgi.log')
+        self.set_path('uwsgi:pid', 'datadir', 'uwsgi.pid')
+        self.set_path('uwsgi:log', 'datadir', 'uwsgi.log')
         self.set_path(
             'venv:site-packages',
             'virtualenv_path',
             'lib/python3.4/site-packages/')
 
-        self.set_path('flags:dbversioning', 'flags', 'versioning.flag')
-        self.set_path('flags:dbmigration', 'flags', 'dbmigration.flag')
+        self.set_path('flags:dbversioning', 'flagsdir', 'versioning.flag')
+        self.set_path('flags:dbmigration', 'flagsdir', 'dbmigration.flag')
 
         self.set_path('migration:main', 'cwd', 'migrations')
         self.set_path('migration:manage', 'migration:main', 'manage2.py')
@@ -77,17 +77,17 @@ class HatakRecipe(Recipe):
         self.set_path('project:managepy', 'project:application', 'manage.py')
         self.set_path('project:settings', 'project:application', 'settings')
         self.set_path('readmefile', 'cwd', 'README.txt')
-        self.set_path('application:tests', 'project:application', 'tests')
-        self.set_path(
-            'application:fixtures', 'application:tests', 'fixtures.py')
-        self.set_path(
-            'application:cases', 'application:tests', 'cases.yml')
+        self.paths['application'] = {}
+        app = self.paths['application']
+        app.set_path('tests', 'project:application', 'tests')
+        app.set_path('fixtures', 'tests', 'fixtures.py')
+        app.set_path('cases', 'tests', 'cases.yml')
 
         self.set_path('project:routes', 'project:application', 'routes.py')
         self.set_path('project:default', 'project:settings', 'default.py')
         self.set_path('project:testsettings', 'project:settings', 'tests.py')
 
-        self.set_path('alembic:ini', 'data', 'alembic.ini')
+        self.set_path('alembic:ini', 'datadir', 'alembic.ini')
         self.set_path('alembic:main', 'cwd', 'alembic')
         self.set_path('alembic:versions', 'alembic:main', 'versions')
 
@@ -101,8 +101,7 @@ class HatakRecipe(Recipe):
         ]
 
     def final_settings(self):
-        self.set_path('virtualenv_path', 'cwd', 'venv')
-        self.set_path('flags', 'data', 'flags')
+        self.set_path('flagsdir', 'datadir', 'flags')
 
         self.settings['packages'] = [
             'hatak==0.2.3',
