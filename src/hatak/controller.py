@@ -100,3 +100,13 @@ class ControllerPlugin(object):
 
     def make_helpers(self):
         pass
+
+
+class JsonController(Controller):
+    renderer = 'json'
+
+    def generate_default_data(self):
+        return {}
+
+    def make_plugin_helpers(self):
+        pass
