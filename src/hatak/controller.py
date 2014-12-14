@@ -3,7 +3,15 @@ from .unpackrequest import unpack
 
 
 class EndController(Exception):
-    pass
+
+    def __init__(self, response=None):
+        self.response = response
+
+
+class FinalizeController(Exception):
+
+    def __init__(self, data=None):
+        self.data = data or {}
 
 
 class Controller(object):
@@ -20,17 +28,18 @@ class Controller(object):
         try:
             self.before_filter()
             self.data = self.generate_default_data()
-            data = self.make() or {}
+            data = self.do_make()
             self.data.update(data)
             self.after_filter()
-            if self.response is None:
-                self.make_helpers()
-                self.make_plugin_helpers()
-                return self.data
-            else:
-                return self.response
-        except EndController:
-            return self.response
+            return self.get_response()
+        except EndController as end:
+            return end.response or self.response
+
+    def do_make(self):
+        try:
+            return self.make() or {}
+        except FinalizeController as finalizer:
+            return finalizer.data
 
     def generate_default_data(self):
         data = {
@@ -57,9 +66,19 @@ class Controller(object):
         for plugin in self.plugins:
             plugin.after_filter()
 
-    def redirect(self, to):
+    def get_response(self):
+        if self.response is None:
+            self.make_helpers()
+            self.make_plugin_helpers()
+            return self.data
+        else:
+            return self.response
+
+    def redirect(self, to, end=False):
         url = self.request.route_url(to)
         self.response = HTTPFound(location=url)
+        if end:
+            raise EndController(self.response)
 
     def add_helper(self, name, cls, *args, **kwargs):
         self.data[name] = cls(self.request, *args, **kwargs)
