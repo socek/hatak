@@ -77,6 +77,26 @@ class TestFixtures(GeneratedOnceTemplateTask):
         return self.paths['application:fixtures']
 
 
+class Conftest(GeneratedOnceTemplateTask):
+    path = '/templates/conftest'
+
+    def get_template_path(self):
+        return path.join('project/conftest.py.tpl')
+
+    def get_output_file(self):
+        return self.paths['project:conftest']
+
+
+class Pytestini(GeneratedOnceTemplateTask):
+    path = '/templates/pytestini'
+
+    def get_template_path(self):
+        return path.join('project/pytest.ini.tpl')
+
+    def get_output_file(self):
+        return self.paths['project:pytestini']
+
+
 class TestCases(GeneratedOnceTemplateTask):
     path = '/templates/testcases'
 

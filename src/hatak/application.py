@@ -1,6 +1,7 @@
 from pyramid.config import Configurator
 from morfdict import Factory
 
+import hatak
 from .unpackrequest import UnpackRequest
 from .command import CommandsApplication
 from .errors import PluginNotFound
@@ -121,3 +122,9 @@ class Application(object):
     def _validate_dependency_plugin(self, plugin):
         if not plugin in self.plugin_types:
             raise PluginNotFound(plugin)
+
+    def start_pytest_session(self):
+        self.generate_settings({})
+        self.append_plugin_settings()
+        self.factory.run_module_without_errors('tests')
+        hatak._test_cache['app'] = self

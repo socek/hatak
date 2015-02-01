@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 install_requires = [
-    'bael.project>=0.1.3',
+    'bael.project>=0.1.4',
     'pyramid',
     'pyyaml',
 ]
@@ -11,7 +11,7 @@ install_requires = [
 if __name__ == '__main__':
     setup(
         name='hatak',
-        version='0.2.6',
+        version='0.2.7',
         description='Small Pyramid extension/project managment',
         license='Apache License 2.0',
         packages=find_packages('src'),
@@ -29,4 +29,4 @@ if __name__ == '__main__':
           [console_scripts]
               hatak = bael.hatak.recipe:run
         """,
-        )
+    )

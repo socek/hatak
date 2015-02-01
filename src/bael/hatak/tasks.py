@@ -102,6 +102,8 @@ class ProjectTemplates(Task):
         self.add_link('bael.hatak.templates:Routes')
         self.add_link('bael.hatak.templates:Settings')
         self.add_link('bael.hatak.templates:TestFixtures')
+        self.add_link('bael.hatak.templates:Conftest')
+        self.add_link('bael.hatak.templates:Pytestini')
         self.add_link('bael.hatak.templates:TestCases')
         self.add_link('bael.hatak.templates:TestSettings')
         self.add_link('bael.hatak.templates:RedmeFile')
@@ -113,37 +115,19 @@ class Tests(CommandTask):
 
     def make(self):
         if 'g' in self.kwargs:
-            self.tests('-g %s' % (self.kwargs['g'][0]))
-        elif 'c' in self.kwargs:
-            self.tests('-c %s' % (self.kwargs['c'][0]))
+            self.tests('%s' % (self.kwargs['g'][0]))
         else:
             self.tests()
 
     def tests(self, command='', *args, **kwargs):
-        command = self.paths['exe:manage'] + ' tests ' + command
+        kwargs['cwd'] = self.paths['project:src']
+        command = self.paths['exe:pytest'] + '  ' + command
         return self.command([command], *args, **kwargs)
 
 
-class TestsList(Tests):
-    name = 'Show all tests'
-    path = '/tests/list'
-
-    def make(self):
-        self.tests('-l')
-
-
-class Coverage(CommandTask):
+class Coverage(Tests):
     name = 'Generate test coverage report'
     path = '/tests/coverage'
 
     def make(self):
-        omits = ','.join(self.settings['coverage omits'])
-        self.coverage('run --branch %(exe:manage)s tests' % self.paths, True)
-        self.coverage('html --omit=%s' % (omits,), True)
-        if 'browser' in self.kwargs:
-            browser = self.kwargs['browser'][0]
-            self.command(['%s htmlcov/index.html' % (browser)])
-
-    def coverage(self, command='', *args, **kwargs):
-        command = self.paths['exe:coverage'] + ' ' + command
-        return self.command([command], *args, **kwargs)
+        self.tests('--cov src')

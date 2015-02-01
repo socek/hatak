@@ -7,7 +7,6 @@ from haplugin.sql import SqlPlugin
 from haplugin.alembic import AlembicPlugin
 from haplugin.beaker import BeakerPlugin
 from haplugin.debugtoolbar import DebugtoolbarPlugin
-from haplugin.toster.plugin import TosterPlugin
 from haplugin.statics.plugin import StaticPlugin
 
 from {{settings["package:name"]}}.application.tests.fixtures import Fixtures
@@ -21,5 +20,4 @@ main.add_plugin(SqlPlugin())
 main.add_plugin(AlembicPlugin())
 main.add_plugin(BeakerPlugin())
 main.add_plugin(DebugtoolbarPlugin())
-main.add_plugin(TosterPlugin(Fixtures))
 main.add_plugin(StaticPlugin())

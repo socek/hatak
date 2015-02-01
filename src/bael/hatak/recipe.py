@@ -10,7 +10,6 @@ from .tasks import (
     Develop,
     Shell,
     Tests,
-    TestsList,
     Coverage,
 )
 
@@ -20,6 +19,8 @@ from .templates import (
     Settings,
     FrontendIni,
     TestFixtures,
+    Conftest,
+    Pytestini,
     TestCases,
     TestSettings,
     RedmeFile,
@@ -45,6 +46,8 @@ class HatakRecipe(Recipe):
 
     def create_settings(self):
         self.set_path('project:src', 'cwd', 'src')
+        self.set_path('project:conftest', 'project:src', 'conftest.py')
+        self.set_path('project:pytestini', 'project:src', 'pytest.ini')
         self.set_path('datadir', 'cwd', 'data')
         self.set_path('data:frontend.ini', 'datadir', 'frontend.ini')
         self.set_path('data:log', 'datadir', 'all.log')
@@ -68,6 +71,8 @@ class HatakRecipe(Recipe):
         self.set_path('exe:uwsgi', 'virtualenv:bin', 'uwsgi')
         self.set_path(
             'exe:manage', 'virtualenv:bin', '%(package:name)s_manage')
+        self.set_path(
+            'exe:pytest', 'virtualenv:bin', 'py.test')
         self.set_path('exe:coverage', 'virtualenv:bin', 'coverage')
 
         self.settings['develop'] = True
@@ -104,7 +109,7 @@ class HatakRecipe(Recipe):
         self.set_path('flagsdir', 'datadir', 'flags')
 
         self.settings['packages'] = [
-            'hatak==0.2.3',
+            'hatak==0.2.7',
             'coverage',
             'hatak_logging',
             'hatak_jinja2',
@@ -113,8 +118,10 @@ class HatakRecipe(Recipe):
             'hatak_alembic',
             'hatak_beaker',
             'hatak_debugtoolbar',
-            'hatak_toster',
             'hatak_statics',
+            'pytest',
+            'pytest-cov',
+            'coverage==3.7.1',
 
             'waitress',
             'uwsgi',
@@ -149,12 +156,13 @@ class HatakRecipe(Recipe):
         self.add_task(UwsgiStop)
         self.add_task(UwsgiRestart)
         self.add_task(Tests)
-        self.add_task(TestsList)
         self.add_task(Coverage)
         self.add_task(AlembicData)
         self.add_task(AlembicMigration)
         self.add_task(AlembicRevision)
         self.add_task(TestFixtures)
+        self.add_task(Conftest)
+        self.add_task(Pytestini)
         self.add_task(TestCases)
         self.add_task(TestSettings)
         self.add_task(RedmeFile)
