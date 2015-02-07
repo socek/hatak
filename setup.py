@@ -13,6 +13,7 @@ if __name__ == '__main__':
         name='hatak',
         version='0.2.7',
         description='Small Pyramid extension/project managment',
+        url='https://github.com/socek/hatak',
         license='Apache License 2.0',
         packages=find_packages('src'),
         package_dir={'': 'src'},
