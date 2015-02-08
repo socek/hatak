@@ -130,4 +130,4 @@ class Coverage(Tests):
     path = '/tests/coverage'
 
     def make(self):
-        self.tests('--cov src')
+        self.tests('--cov %(package:name)s' % self.settings)

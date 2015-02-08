@@ -109,7 +109,7 @@ class HatakRecipe(Recipe):
         self.set_path('flagsdir', 'datadir', 'flags')
 
         self.settings['packages'] = [
-            'hatak==0.2.7',
+            'hatak==0.2.7.2',
             'coverage',
             'hatak_logging',
             'hatak_jinja2',

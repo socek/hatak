@@ -11,7 +11,7 @@ install_requires = [
 if __name__ == '__main__':
     setup(
         name='hatak',
-        version='0.2.7.1',
+        version='0.2.7.2',
         description='Small Pyramid extension/project managment',
         url='https://github.com/socek/hatak',
         license='Apache License 2.0',
