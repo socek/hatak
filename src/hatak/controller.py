@@ -74,8 +74,8 @@ class Controller(object):
         else:
             return self.response
 
-    def redirect(self, to, end=False):
-        url = self.request.route_url(to)
+    def redirect(self, to, end=False, **kwargs):
+        url = self.request.route_url(to, **kwargs)
         self.response = HTTPFound(location=url)
         if end:
             raise EndController(self.response)
