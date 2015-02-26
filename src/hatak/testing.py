@@ -47,6 +47,16 @@ class ControllerFixture(RequestFixture):
     def matchdict(self):
         return {}
 
+    @yield_fixture
+    def add_form(self, controller):
+        with patch.object(controller, 'add_form', autospec=True) as mock:
+            yield mock
+
+    @yield_fixture
+    def redirect(self, controller):
+        with patch.object(controller, 'redirect', autospec=True) as mock:
+            yield mock
+
     @fixture
     def controller(self, app, request, root_tree, data, matchdict):
         request.registry['controller_plugins'] = app.controller_plugins
