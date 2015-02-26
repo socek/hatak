@@ -60,4 +60,4 @@ chmod-socket = 777
 pythonpath = {{paths['venv:site-packages']}}*.egg
 pidfile = {{paths['uwsgi:pid']}}
 logto = {{paths['uwsgi:log']}}
-daemonize2 = true
+daemonize2 = {{paths['uwsgi:daemonize']}}

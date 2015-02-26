@@ -51,9 +51,11 @@ class HatakRecipe(Recipe):
         self.set_path('datadir', 'cwd', 'data')
         self.set_path('data:frontend.ini', 'datadir', 'frontend.ini')
         self.set_path('data:log', 'datadir', 'all.log')
-        self.set_path('uwsgi:socket', None, '/tmp/uwsgi.socket')
+        self.set_path(
+            'uwsgi:socket', None, '/tmp/%(package:name)s.uwsgi.socket')
         self.set_path('uwsgi:pid', 'datadir', 'uwsgi.pid')
         self.set_path('uwsgi:log', 'datadir', 'uwsgi.log')
+        self.set_path('uwsgi:daemonize', 'datadir', 'uwsgi.daemonize.log')
         self.set_path(
             'venv:site-packages',
             'virtualenv_path',
@@ -104,6 +106,7 @@ class HatakRecipe(Recipe):
             '*/routes.py',
             '*/settings/*',
         ]
+        self.set_path('virtualenvdir', 'cwd', 'venv_%(package:name)s')
 
     def final_settings(self):
         self.set_path('flagsdir', 'datadir', 'flags')
@@ -137,6 +140,12 @@ class HatakRecipe(Recipe):
             '%(package:name)s.application.manage:run\n'
             ''
         )
+        # TODO: move this to bael-project
+        self.paths.set_path('virtualenvdir', 'cwd', 'venv_%(package:name)s')
+        self.paths.set_path('virtualenvdir2', 'cwd', 'venv_%(package:name)s')
+        self.paths.set_path('virtualenv:bin', 'virtualenvdir2', 'bin')
+        self.set_path('exe:python', 'virtualenv:bin', 'python')
+        self.set_path('exe:pip', 'virtualenv:bin', 'pip')
 
     def gather_recipes(self):
         self.add_recipe(ProjectRecipe(False))
