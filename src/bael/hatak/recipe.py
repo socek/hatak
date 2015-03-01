@@ -37,6 +37,7 @@ from .alembic import (
     AlembicData,
     AlembicMigration,
     AlembicRevision,
+    AlembicInit,
 )
 
 
@@ -169,6 +170,7 @@ class HatakRecipe(Recipe):
         self.add_task(AlembicData)
         self.add_task(AlembicMigration)
         self.add_task(AlembicRevision)
+        self.add_task(AlembicInit)
         self.add_task(TestFixtures)
         self.add_task(Conftest)
         self.add_task(Pytestini)

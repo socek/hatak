@@ -1,5 +1,6 @@
 from pyramid.config import Configurator
 from morfdict import Factory
+from importlib import import_module
 
 import hatak
 from .unpackrequest import UnpackRequest
@@ -128,3 +129,8 @@ class Application(object):
         self.append_plugin_settings()
         self.factory.run_module_without_errors('tests')
         hatak._test_cache['app'] = self
+
+    def _import_from_string(self, url):
+        url = url.split(':')
+        module = import_module(url[0])
+        return getattr(module, url[1])

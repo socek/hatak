@@ -62,3 +62,18 @@ class AlembicRevision(AlembicBase):
     def make(self):
         description = self.ask_for('description', 'Migration description')
         self.alembic('revision -m "%s"' % (description))
+
+
+class AlembicInit(AlembicBase):
+    name = 'Initialize database'
+    path = '/alembic/init'
+
+    def generate_dependencies(self):
+        self.add_dependecy(AlwaysRebuild())
+
+    def generate_links(self):
+        self.add_link(AlembicData)
+
+    def make(self):
+        command = self.paths['exe:manage'] + ' init'
+        return self.python(command)
