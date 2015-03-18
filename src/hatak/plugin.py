@@ -1,3 +1,6 @@
+from hatak.unpackrequest import unpack
+
+
 class Plugin(object):
 
     @property
@@ -95,14 +98,7 @@ class RequestPlugin(object):
         self.parent = parent
 
     def init(self, request):
-        self.request = request
-        self.POST = request.POST
-        self.GET = request.GET
-        self.matchdict = request.matchdict
-        self.settings = request.registry['settings']
-        self.paths = request.registry['paths']
-        self.registry = request.registry
-        self.route = request.route_path
+        unpack(self, request)
         return self.return_once()
 
     def return_once(self):

@@ -62,7 +62,7 @@ class ControllerFixture(RequestFixture):
         request.registry['controller_plugins'] = app.controller_plugins
         controller = self._get_controller_class()(root_tree, request)
         controller.data = data
-        controller.matchdict = matchdict
+        request.matchdict = matchdict
         return controller
 
 
