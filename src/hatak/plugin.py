@@ -87,6 +87,12 @@ class Plugin(object):
     def append_routes(self):
         pass
 
+    def walk_thru_plugins(self):
+        if hasattr(self, 'interract_with'):
+            for plugin in self.app.plugins:
+                if plugin is not self:
+                    self.interract_with(plugin)
+
 
 class RequestPlugin(object):
 

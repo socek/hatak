@@ -48,6 +48,7 @@ class Application(object):
     def __call__(self, settings={}):
         self.generate_settings(settings)
         self.append_plugin_settings()
+        self.walk_thru_plugins()
         self.make_before_config()
         self.create_config()
         self.make_after_config()
@@ -93,6 +94,10 @@ class Application(object):
     def append_plugin_settings(self):
         for plugin in self.plugins:
             plugin.append_settings()
+
+    def walk_thru_plugins(self):
+        for plugin in self.plugins:
+            plugin.walk_thru_plugins()
 
     def make_before_config(self):
         for plugin in self.plugins:
