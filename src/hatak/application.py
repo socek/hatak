@@ -139,3 +139,8 @@ class Application(object):
         url = url.split(':')
         module = import_module(url[0])
         return getattr(module, url[1])
+
+    def get_plugin(self, cls):
+        for plugin in self.plugins:
+            if cls == type(plugin):
+                return plugin
