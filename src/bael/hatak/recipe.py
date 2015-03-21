@@ -113,7 +113,7 @@ class HatakRecipe(Recipe):
         self.set_path('flagsdir', 'datadir', 'flags')
 
         self.settings['packages'] = [
-            'hatak==0.2.7.2',
+            'hatak==0.2.7.6',
             'coverage',
             'hatak_logging',
             'hatak_jinja2',
@@ -123,8 +123,8 @@ class HatakRecipe(Recipe):
             'hatak_beaker',
             'hatak_debugtoolbar',
             'hatak_statics',
-            'pytest',
             'pytest-cov',
+            'pytest',
             'coverage==3.7.1',
 
             'waitress',
@@ -141,12 +141,6 @@ class HatakRecipe(Recipe):
             '%(package:name)s.application.manage:run\n'
             ''
         )
-        # TODO: move this to bael-project
-        self.paths.set_path('virtualenvdir', 'cwd', 'venv_%(package:name)s')
-        self.paths.set_path('virtualenvdir2', 'cwd', 'venv_%(package:name)s')
-        self.paths.set_path('virtualenv:bin', 'virtualenvdir2', 'bin')
-        self.set_path('exe:python', 'virtualenv:bin', 'python')
-        self.set_path('exe:pip', 'virtualenv:bin', 'pip')
 
     def gather_recipes(self):
         self.add_recipe(ProjectRecipe(False))

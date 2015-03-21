@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 install_requires = [
-    'bael.project>=0.1.4',
+    'bael.project>=0.1.5',
     'pyramid',
     'pyyaml',
 ]
