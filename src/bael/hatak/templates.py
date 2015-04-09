@@ -96,16 +96,6 @@ class Pytestini(GeneratedOnceTemplateTask):
         return self.paths['project:pytestini']
 
 
-class TestCases(GeneratedOnceTemplateTask):
-    path = '/templates/testcases'
-
-    def get_template_path(self):
-        return path.join('project/cases.py.tpl')
-
-    def get_output_file(self):
-        return self.paths['application:cases']
-
-
 class TestSettings(GeneratedOnceTemplateTask):
     path = '/templates/testsettings'
 

@@ -20,7 +20,6 @@ def make_settings(settings, paths):
     paths['logging'] = {
         'config': '%(frontend)s'
     }
-    paths['tests_yaml'] = ['%(project_path)s', 'tests', 'cases.yml']
     paths.set_path('sqlite_db', 'data', '%(db:name)s.db')
     settings['db'] = {}
     settings['db']['type'] = 'sqlite'

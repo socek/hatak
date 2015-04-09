@@ -1,4 +1,0 @@
-# example:
-#module:
-#    submodule:
-#        - TestCase

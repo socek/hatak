@@ -104,7 +104,6 @@ class ProjectTemplates(Task):
         self.add_link('bael.hatak.templates:TestFixtures')
         self.add_link('bael.hatak.templates:Conftest')
         self.add_link('bael.hatak.templates:Pytestini')
-        self.add_link('bael.hatak.templates:TestCases')
         self.add_link('bael.hatak.templates:TestSettings')
         self.add_link('bael.hatak.templates:RedmeFile')
 

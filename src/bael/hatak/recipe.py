@@ -21,7 +21,6 @@ from .templates import (
     TestFixtures,
     Conftest,
     Pytestini,
-    TestCases,
     TestSettings,
     RedmeFile,
     ManagePy,
@@ -89,7 +88,6 @@ class HatakRecipe(Recipe):
         app = self.paths['application']
         app.set_path('tests', 'project:application', 'tests')
         app.set_path('fixtures', 'tests', 'fixtures.py')
-        app.set_path('cases', 'tests', 'cases.yml')
 
         self.set_path('project:routes', 'project:application', 'routes.py')
         self.set_path('project:default', 'project:settings', 'default.py')
@@ -168,7 +166,6 @@ class HatakRecipe(Recipe):
         self.add_task(TestFixtures)
         self.add_task(Conftest)
         self.add_task(Pytestini)
-        self.add_task(TestCases)
         self.add_task(TestSettings)
         self.add_task(RedmeFile)
         self.add_task(ManagePy)
