@@ -48,11 +48,6 @@ class ControllerFixture(RequestFixture):
         return {}
 
     @yield_fixture
-    def add_form(self, controller):
-        with patch.object(controller, 'add_form', autospec=True) as mock:
-            yield mock
-
-    @yield_fixture
     def redirect(self, controller):
         with patch.object(controller, 'redirect', autospec=True) as mock:
             yield mock
@@ -64,21 +59,6 @@ class ControllerFixture(RequestFixture):
         controller.data = data
         request.matchdict = matchdict
         return controller
-
-
-class FormFixture(object):
-
-    @yield_fixture
-    def CsrfMustMatch(self):
-        with patch('haplugin.formskit.models.CsrfMustMatch') as mock:
-            yield mock
-
-    def _create_fake_post(self, data):
-        defaults = {
-            self.form.form_name_value: [self.form.get_name(), ]
-        }
-        defaults.update(data)
-        self.POST.dict_of_lists.return_value = defaults
 
 
 class PluginFixture(ApplicatonFixture):
@@ -96,6 +76,39 @@ class PluginFixture(ApplicatonFixture):
 
     @fixture
     def plugin(self, fake_app):
-        plugin = self._get_plugin_class()
+        plugin = self._get_plugin_class()()
         plugin.app = fake_app
         return plugin
+
+
+class ControllerPluginFixture(ApplicatonFixture):
+
+    def _get_plugin_class(self):
+        pass
+
+    @fixture
+    def controller(self):
+        return MagicMock()
+
+    @fixture
+    def parent(self):
+        return MagicMock()
+
+    @fixture
+    def plugin(self, parent, controller):
+        return self._get_plugin_class()(parent, controller)
+
+    @yield_fixture
+    def add_helper(self, plugin):
+        with patch.object(plugin, 'add_helper') as mock:
+            yield mock
+
+
+class ModelFixture(RequestFixture):
+
+    def _get_model_class(self):
+        pass
+
+    @fixture
+    def model(self):
+        return self._get_model_class()()
