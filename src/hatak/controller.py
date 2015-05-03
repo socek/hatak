@@ -28,6 +28,7 @@ class Controller(object):
         try:
             self.before_filter()
             self.data = self.generate_default_data()
+            self.second_filter()
             data = self.do_make()
             self.data.update(data)
             self.after_filter()
@@ -49,6 +50,9 @@ class Controller(object):
         for plugin in self.plugins:
             plugin.generate_default_data(data)
         return data
+
+    def second_filter(self):
+        pass
 
     def make(self):
         pass
