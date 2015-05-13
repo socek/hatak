@@ -5,6 +5,12 @@ import hatak
 from hatak.unpackrequest import unpack
 
 
+class SessionDict(dict):
+
+    def get_csrf_token(self):
+        return MagicMock()
+
+
 class ApplicatonFixture(object):
 
     @fixture(scope="session")
@@ -24,10 +30,20 @@ class RequestFixture(ApplicatonFixture):
         return request
 
     @fixture
-    def request(self, app):
+    def request(self, app, matchdict, session):
         request = self._get_default_request(app)
+        request.matchdict = matchdict
+        request.session = session
         unpack(self, request)
         return request
+
+    @fixture
+    def matchdict(self):
+        return {}
+
+    @fixture
+    def session(self):
+        return SessionDict()
 
 
 class ControllerFixture(RequestFixture):
@@ -43,21 +59,16 @@ class ControllerFixture(RequestFixture):
     def data(self):
         return {}
 
-    @fixture
-    def matchdict(self):
-        return {}
-
     @yield_fixture
     def redirect(self, controller):
         with patch.object(controller, 'redirect', autospec=True) as mock:
             yield mock
 
     @fixture
-    def controller(self, app, request, root_tree, data, matchdict):
+    def controller(self, app, request, root_tree, data):
         request.registry['controller_plugins'] = app.controller_plugins
         controller = self._get_controller_class()(root_tree, request)
         controller.data = data
-        request.matchdict = matchdict
         return controller
 
 
