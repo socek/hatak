@@ -20,6 +20,16 @@ class InitPy(GeneratedOnceTemplateTask):
         return self.paths['project:initpy']
 
 
+class PShell(GeneratedOnceTemplateTask):
+    path = '/templates/pshell'
+
+    def get_template_path(self):
+        return path.join('project/pshell.py.tpl')
+
+    def get_output_file(self):
+        return self.paths['project:pshell']
+
+
 class ManagePy(GeneratedOnceTemplateTask):
     path = '/templates/manage'
 

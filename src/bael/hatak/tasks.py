@@ -106,6 +106,7 @@ class ProjectTemplates(Task):
         self.add_link('bael.hatak.templates:Pytestini')
         self.add_link('bael.hatak.templates:TestSettings')
         self.add_link('bael.hatak.templates:RedmeFile')
+        self.add_link('bael.hatak.templates:PShell')
 
 
 class Tests(CommandTask):

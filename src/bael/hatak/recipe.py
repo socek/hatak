@@ -24,6 +24,7 @@ from .templates import (
     TestSettings,
     RedmeFile,
     ManagePy,
+    PShell,
 )
 
 from .uwsgi import (
@@ -81,6 +82,7 @@ class HatakRecipe(Recipe):
 
         self.set_path('project:application', 'project:home', 'application')
         self.set_path('project:initpy', 'project:application', 'init.py')
+        self.set_path('project:pshell', 'project:application', 'pshell.py')
         self.set_path('project:managepy', 'project:application', 'manage.py')
         self.set_path('project:settings', 'project:application', 'settings')
         self.set_path('readmefile', 'cwd', 'README.txt')
@@ -169,6 +171,7 @@ class HatakRecipe(Recipe):
         self.add_task(TestSettings)
         self.add_task(RedmeFile)
         self.add_task(ManagePy)
+        self.add_task(PShell)
 
     def _filter_task(self, task):
         return task.get_path().startswith(self.prefix)

@@ -11,7 +11,7 @@ port = 6543
 
 # Begin logging configuration
 [loggers]
-keys = root, {{settings['project:name']}}
+keys = root, {{settings['package:name']}}
 
 [handlers]
 keys = console, all
@@ -23,10 +23,10 @@ keys = generic
 level = DEBUG
 handlers = all
 
-[logger_{{settings['project:name']}}]
+[logger_{{settings['package:name']}}]
 level = DEBUG
 handlers = console
-qualname = {{settings['project:name']}}
+qualname = {{settings['package:name']}}
 
 [logger_routes]
 level = DEBUG
@@ -61,3 +61,6 @@ pythonpath = {{paths['venv:site-packages']}}*.egg
 pidfile = {{paths['uwsgi:pid']}}
 logto = {{paths['uwsgi:log']}}
 daemonize2 = {{paths['uwsgi:daemonize']}}
+
+[pshell]
+setup = {{settings['package:name']}}.application.pshell.setup
