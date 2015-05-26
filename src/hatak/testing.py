@@ -64,6 +64,11 @@ class ControllerFixture(RequestFixture):
         with patch.object(controller, 'redirect', autospec=True) as mock:
             yield mock
 
+    @yield_fixture
+    def add_helper(self, controller):
+        with patch.object(controller, 'add_helper') as mock:
+            yield mock
+
     @fixture
     def controller(self, app, request, root_tree, data):
         request.registry['controller_plugins'] = app.controller_plugins
